@@ -53,5 +53,10 @@ canvas {
   &:hover {
     background-color: skyblue;
     opacity: 50%;
+    color: black;
   }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: beige;
 }

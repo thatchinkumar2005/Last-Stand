@@ -1,4 +1,6 @@
-export default function keyDown(e, keys) {
+import { state } from "../../GLOBAL/state.js";
+
+export default function keyDown(e, keys, Inventory) {
   console.log(e.key);
   switch (e.key) {
     case "d":
@@ -12,6 +14,7 @@ export default function keyDown(e, keys) {
       break;
     case " ":
       keys.space.pressed = true;
+      state.phase = "play";
       break;
     case "Shift":
       const inventory = document.querySelector("#inventory");
@@ -19,5 +22,11 @@ export default function keyDown(e, keys) {
         inventory.style.display === "none" ? "flex" : "none";
       console.log(inventory);
       inventory.classList.add("show");
+      Inventory.refresh();
+      break;
+
+    case "Escape":
+      Inventory.selectedItem = null;
+      break;
   }
 }

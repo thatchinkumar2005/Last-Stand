@@ -1,3 +1,5 @@
+import { settings } from "../GLOBAL/settings.js";
+import { state } from "../GLOBAL/state.js";
 import keyDown from "./events/keyDown.js";
 import keyUp from "./events/keyUp.js";
 import { Block } from "./objects/Blocks.js";
@@ -8,8 +10,6 @@ export const canvas = document.querySelector("canvas");
 canvas.height = 760;
 canvas.width = 1280;
 export const c = canvas.getContext("2d");
-
-let phase = "prepare";
 
 const image = new Image();
 image.src = "Assets/bg.png";
@@ -48,7 +48,7 @@ function animate() {
   requestAnimationFrame(animate);
   c.drawImage(image, 0, 0, 1280, 760);
 
-  if (phase === "prepare") {
+  if (state.phase === "prepare") {
     if (inventory.selectedItem) {
       if (inventory.selectedItem === "block") {
         c.fillStyle = "rgba(80, 77, 224, 0.8)";
@@ -67,12 +67,12 @@ function animate() {
 //eventListeners
 
 function handleKeyDown(e) {
-  keyDown(e, keys);
+  keyDown(e, keys, inventory);
 }
 window.addEventListener("keydown", handleKeyDown);
 
 function handleKeyUp(e) {
-  keyUp(e, keys);
+  keyUp(e, keys, inventory);
 }
 window.addEventListener("keyup", handleKeyUp);
 
@@ -84,6 +84,10 @@ canvas.addEventListener("click", () => {
         otherItems: structuredClone(placedItems),
       });
       placedItems.push(block);
+      inventory.items[0].count--;
+
+      if (inventory.items[0].count === 0) inventory.selectedItem = null;
+      console.log(inventory.items);
     }
   }
 });
