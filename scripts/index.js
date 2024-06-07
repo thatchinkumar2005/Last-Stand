@@ -39,9 +39,9 @@ export const mouse = {
 };
 
 //Objects
+export const placedItems = [];
 const player = new Player({ position: { x: 100, y: 100 } });
 const inventory = new Inventory({ items: [{ name: "block", count: 5 }] });
-const placedItems = [];
 
 //animate
 function animate() {
@@ -56,11 +56,11 @@ function animate() {
       }
     }
   } else {
-    player.update();
+    player.update({ placedItems });
   }
 
   placedItems.forEach((placedItem) => {
-    placedItem.update();
+    placedItem.update({ player });
   });
 }
 

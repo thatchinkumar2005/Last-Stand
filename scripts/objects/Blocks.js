@@ -23,7 +23,7 @@ export class Block {
     c.fillRect(this.position.x, this.position.y, this.height, this.width);
   }
 
-  update() {
+  update({ player }) {
     this.draw();
 
     this.position.x += this.velocity.x;
@@ -35,6 +35,7 @@ export class Block {
       this.velocity.y += settings.gravity;
     }
 
+    //collision with other placedItems
     this.otherItems.forEach((i) => {
       if (
         this.position.y + this.height > i.position.y &&
