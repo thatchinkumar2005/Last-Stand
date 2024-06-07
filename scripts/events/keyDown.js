@@ -13,5 +13,11 @@ export default function keyDown(e, keys) {
     case " ":
       keys.space.pressed = true;
       break;
+    case "Shift":
+      const inventory = document.querySelector("#inventory");
+      inventory.style.display =
+        inventory.style.display === "none" ? "flex" : "none";
+      console.log(inventory);
+      inventory.classList.add("show");
   }
 }
