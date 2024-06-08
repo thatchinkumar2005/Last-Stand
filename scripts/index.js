@@ -5,6 +5,7 @@ import keyUp from "./events/keyUp.js";
 import { Block } from "./objects/Blocks.js";
 import Inventory from "./objects/Inventory.js";
 import { Player } from "./objects/Player.js";
+import { Weapon } from "./objects/Weapons.js";
 
 export const canvas = document.querySelector("canvas");
 canvas.height = 760;
@@ -41,6 +42,15 @@ export const mouse = {
 //Objects
 export const placedItems = [];
 const player = new Player({ position: { x: 100, y: 100 } });
+const weapon = new Weapon({
+  position: {
+    x: player.position.x,
+    y: player.position.y,
+  },
+  angle: 0,
+  height: 30,
+  width: 100,
+});
 const inventory = new Inventory({ items: [{ name: "block", count: 5 }] });
 
 //animate
@@ -57,6 +67,7 @@ function animate() {
     }
   } else {
     player.update({ placedItems });
+    weapon.update({ player });
   }
 
   placedItems.forEach((placedItem) => {
@@ -89,6 +100,9 @@ canvas.addEventListener("click", () => {
       if (inventory.items[0].count === 0) inventory.selectedItem = null;
       console.log(inventory.items);
     }
+  }
+  if (state.phase === "play") {
+    weapon.fire();
   }
 });
 
