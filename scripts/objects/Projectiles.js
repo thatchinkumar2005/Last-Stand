@@ -1,5 +1,5 @@
 import { settings } from "../../GLOBAL/settings.js";
-import { c, canvas } from "../index.js";
+import { c, canvas, placedItems, zombies } from "../index.js";
 
 export class Pellet {
   constructor({ position, radius, velocity }) {
@@ -22,10 +22,32 @@ export class Pellet {
 
     if (this.position.y + this.radius > canvas.height) {
       delete this;
-      weapon.projectile = null;
+      weapon.projectiles.splice(weapon.projectiles.indexOf(this), 1);
     } else {
       this.velocity.y += settings.gravity;
     }
+
+    placedItems.forEach((i) => {
+      if (
+        this.position.x + this.radius > i.position.x &&
+        this.position.x - this.radius < i.position.x + i.width &&
+        this.position.y + this.radius > i.position.y
+      ) {
+        delete this;
+        weapon.projectiles.splice(weapon.projectiles.indexOf(this), 1);
+      }
+    });
+
+    zombies.forEach((i) => {
+      if (
+        this.position.x + this.radius > i.position.x &&
+        this.position.x - this.radius < i.position.x + i.width &&
+        this.position.y + this.radius > i.position.y
+      ) {
+        delete this;
+        weapon.projectiles.splice(weapon.projectiles.indexOf(this), 1);
+      }
+    });
 
     this.draw();
   }

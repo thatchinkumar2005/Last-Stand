@@ -14,7 +14,10 @@ export default function keyDown(e, keys, Inventory) {
       break;
     case " ":
       keys.space.pressed = true;
-      state.phase = "play";
+      if (state.phase === "prepare") {
+        state.phase = "play";
+        Inventory.items = [];
+      }
       break;
     case "Shift":
       const inventory = document.querySelector("#inventory");

@@ -23,10 +23,10 @@ export class Weapon {
     c.restore();
   }
 
-  update({ player }) {
+  update() {
     this.position = {
-      x: player.position.x + player.width / 2,
-      y: player.position.y,
+      x: this.player.position.x + this.player.width / 2,
+      y: this.player.position.y,
     };
 
     let mouseAngle = Math.atan2(
@@ -54,8 +54,8 @@ export class Weapon {
       },
       radius: 10,
       velocity: {
-        x: 30 * Math.cos(this.angle),
-        y: 30 * Math.sin(this.angle),
+        x: 40 * Math.cos(this.angle),
+        y: 40 * Math.sin(this.angle),
       },
     });
 

@@ -1,29 +1,32 @@
 import { settings } from "../../GLOBAL/settings.js";
-import { c, canvas, keys, mouse, placedItems } from "../index.js";
+import randRange from "../../utills/randRange.js";
+import { c, canvas, placedItems } from "../index.js";
 
-class Player {
-  constructor({ position = { x: 0, y: 0 } }) {
-    const height = 140;
-    const width = 70;
+export class NormalZombie {
+  constructor({
+    position,
+    velocity = { x: 0, y: 0 },
+    width = 70,
+    height = 140,
+  }) {
     this.position = position;
-    this.height = height;
+    this.velocity = velocity;
     this.width = width;
-    this.velocity = { x: 0, y: 0 };
+    this.height = height;
+    this.velocityMag = randRange(1, 3);
   }
 
   draw() {
-    c.fillStyle = "Red";
+    c.fillStyle = "green";
     c.fillRect(this.position.x, this.position.y, this.width, this.height);
   }
 
-  update() {
+  update({ player }) {
     this.draw();
 
-    //velocity implementation
     this.position.x += this.velocity.x;
     this.position.y += this.velocity.y;
 
-    //gravity
     if (this.position.y + this.height > canvas.height) {
       this.velocity.y = -this.velocity.y * settings.losses;
       this.position.y = canvas.height - this.height;
@@ -32,24 +35,10 @@ class Player {
       this.velocity.y += settings.gravity;
     }
 
-    //keys controll
-    this.velocity.x = 0;
-    if (keys.d.pressed && !keys.Control.pressed) {
-      this.velocity.x = settings.walkSpeed;
-    } else if (keys.a.pressed && !keys.Control.pressed) {
-      this.velocity.x = -settings.walkSpeed;
-    } else if (keys.Control.pressed && keys.d.pressed) {
-      this.velocity.x = settings.runSpeed;
-    } else if (keys.Control.pressed && keys.a.pressed) {
-      this.velocity.x = -settings.runSpeed;
-    } else if (keys.Control.pressed && !keys.a.pressed && !keys.d.pressed) {
-      this.velocity.x = 0;
-    }
-    if (keys.space.pressed && (this.onGround || this.onItem)) {
-      this.velocity.y = -15;
-      this.onGround = false;
-      this.onItem = false;
-    }
+    const diff = player.position.x - this.position.x;
+    const i = diff > 0 ? 1 : diff === 0 ? 0 : -1;
+
+    this.velocity.x = this.velocityMag * i;
 
     //placed Items collision
 
@@ -77,5 +66,3 @@ class Player {
     });
   }
 }
-
-export { Player };

@@ -1,11 +1,13 @@
 import { settings } from "../GLOBAL/settings.js";
 import { state } from "../GLOBAL/state.js";
+import { waves } from "../GLOBAL/waves.js";
 import keyDown from "./events/keyDown.js";
 import keyUp from "./events/keyUp.js";
 import { Block } from "./objects/Blocks.js";
 import Inventory from "./objects/Inventory.js";
 import { Player } from "./objects/Player.js";
 import { Weapon } from "./objects/Weapons.js";
+import { NormalZombie } from "./objects/Zombies.js";
 
 export const canvas = document.querySelector("canvas");
 canvas.height = 760;
@@ -41,6 +43,7 @@ export const mouse = {
 
 //Objects
 export const placedItems = [];
+export const zombies = [];
 const player = new Player({ position: { x: 100, y: 100 } });
 const weapon = new Weapon({
   position: {
@@ -51,9 +54,19 @@ const weapon = new Weapon({
   height: 30,
   width: 100,
 });
+player.weapon = weapon;
+weapon.player = player;
 const inventory = new Inventory({ items: [{ name: "block", count: 5 }] });
-
 //animate
+for (const [key, value] of Object.entries(waves)) {
+  if (key === "NormalZombies") {
+    console.log(value);
+    for (let i = 0; i < Number(value); i++) {
+      const zombie = new NormalZombie({ position: { x: 200 * i, y: 200 } });
+      zombies.push(zombie);
+    }
+  }
+}
 function animate() {
   requestAnimationFrame(animate);
   c.drawImage(image, 0, 0, 1280, 760);
@@ -68,6 +81,9 @@ function animate() {
   } else {
     player.update({ placedItems });
     weapon.update({ player });
+    zombies.forEach((z) => {
+      z.update({ player });
+    });
   }
 
   placedItems.forEach((placedItem) => {
