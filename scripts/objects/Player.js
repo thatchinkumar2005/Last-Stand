@@ -9,6 +9,7 @@ class Player {
     this.height = height;
     this.width = width;
     this.velocity = { x: 0, y: 0 };
+    this.health = 100;
   }
 
   draw() {

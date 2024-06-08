@@ -1,6 +1,6 @@
 import { settings } from "../../GLOBAL/settings.js";
 import randRange from "../../utills/randRange.js";
-import { c, canvas, placedItems } from "../index.js";
+import { c, canvas, placedItems, zombies } from "../index.js";
 
 export class NormalZombie {
   constructor({
@@ -14,6 +14,7 @@ export class NormalZombie {
     this.width = width;
     this.height = height;
     this.velocityMag = randRange(1, 3);
+    this.health = 100;
   }
 
   draw() {
@@ -64,5 +65,27 @@ export class NormalZombie {
         }
       }
     });
+
+    zombies.forEach((i) => {
+      if (
+        this.position.x + this.width > i.position.x &&
+        this.position.x < i.position.x + i.width &&
+        this.position.y + this.height > i.position.y &&
+        this.height < i.position.y + i.height
+      ) {
+        if (this.position.x < i.position.x) {
+          console.log("left");
+          this.position.x = i.position.x - this.width - 2;
+        } else if (this.position.x > i.position.x) {
+          console.log("right");
+          this.position.x = i.position.x + i.width + 2;
+        }
+      }
+    });
+
+    if (this.health < 0) {
+      zombies.splice(zombies.indexOf(this), 1);
+      delete this;
+    }
   }
 }
