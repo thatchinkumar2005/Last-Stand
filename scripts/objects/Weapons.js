@@ -8,7 +8,7 @@ export class Weapon {
     this.height = height;
     this.width = width;
     this.bullets = 100;
-    this.projectile = null;
+    this.projectiles = [];
   }
   draw() {
     c.save();
@@ -39,8 +39,10 @@ export class Weapon {
     this.draw();
     c.restore();
 
-    if (this.projectile) {
-      this.projectile.update({ weapon: this });
+    if (this.projectiles.length > 0) {
+      this.projectiles.forEach((p) => {
+        p.update({ weapon: this });
+      });
     }
   }
 
@@ -57,6 +59,6 @@ export class Weapon {
       },
     });
 
-    this.projectile = proj;
+    this.projectiles.push(proj);
   }
 }
