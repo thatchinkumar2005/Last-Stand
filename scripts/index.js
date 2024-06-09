@@ -74,26 +74,28 @@ for (const [key, value] of Object.entries(waves)) {
 }
 function animate() {
   requestAnimationFrame(animate);
-  c.drawImage(image, 0, 0, 1280, 760);
 
-  if (state.phase === "prepare") {
-    if (inventory.selectedItem) {
-      if (inventory.selectedItem === "block") {
-        c.fillStyle = "rgba(80, 77, 224, 0.8)";
-        c.fillRect(mouse.x, mouse.y, 100, 100);
+  if (!state.isPaused && !state.gameOver) {
+    c.drawImage(image, 0, 0, 1280, 760);
+    if (state.phase === "prepare") {
+      if (inventory.selectedItem) {
+        if (inventory.selectedItem === "block") {
+          c.fillStyle = "rgba(80, 77, 224, 0.8)";
+          c.fillRect(mouse.x, mouse.y, 100, 100);
+        }
       }
+    } else {
+      player.update();
+      weapon.update();
+      zombies.forEach((z) => {
+        z.update({ player });
+      });
     }
-  } else {
-    player.update();
-    weapon.update();
-    zombies.forEach((z) => {
-      z.update({ player });
+
+    placedItems.forEach((placedItem) => {
+      placedItem.update({ player });
     });
   }
-
-  placedItems.forEach((placedItem) => {
-    placedItem.update({ player });
-  });
 }
 
 //eventListeners
