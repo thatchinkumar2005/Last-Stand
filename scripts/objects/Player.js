@@ -1,4 +1,5 @@
 import { settings } from "../../GLOBAL/settings.js";
+import { state } from "../../GLOBAL/state.js";
 import { c, canvas, keys, mouse, placedItems } from "../index.js";
 
 class Player {
@@ -77,6 +78,10 @@ class Player {
         }
       }
     });
+
+    if (this.health <= 0) {
+      state.gameOver = true;
+    }
   }
 }
 

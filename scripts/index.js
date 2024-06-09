@@ -10,6 +10,8 @@ import { ScoreBoard } from "./objects/ScoreBoard.js";
 import { Weapon } from "./objects/Weapons.js";
 import { NormalZombie } from "./objects/Zombies.js";
 
+let wave = 0;
+
 export const canvas = document.querySelector("canvas");
 canvas.height = 760;
 canvas.width = 1280;
@@ -63,17 +65,21 @@ export const inventory = new Inventory({
 export const scoreBoard = new ScoreBoard({ initScore: 0 });
 
 //animate
-for (const [key, value] of Object.entries(waves)) {
-  if (key === "NormalZombies") {
-    console.log(value);
-    for (let i = 0; i < Number(value); i++) {
-      const zombie = new NormalZombie({ position: { x: 200 * i, y: 200 } });
-      zombies.push(zombie);
-    }
-  }
-}
 function animate() {
   requestAnimationFrame(animate);
+
+  if (zombies.length === 0) {
+    wave++;
+    for (const [key, value] of Object.entries(waves)) {
+      if (key === "NormalZombies") {
+        console.log(value);
+        for (let i = 0; i < Number(value) * wave; i++) {
+          const zombie = new NormalZombie({ position: { x: 200 * i, y: 200 } });
+          zombies.push(zombie);
+        }
+      }
+    }
+  }
 
   if (!state.isPaused && !state.gameOver) {
     c.drawImage(image, 0, 0, 1280, 760);
