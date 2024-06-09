@@ -92,3 +92,41 @@ canvas {
   color: beige;
   font-size: 35px;
 }
+
+#gameOver {
+  height: 250px;
+  width: 400px;
+  background: transparent;
+  backdrop-filter: saturate(180%) blur(8px);
+  border: beige solid 2px;
+  border-radius: 20px;
+  position: absolute;
+  display: none;
+  flex-direction: column;
+  gap: 20px;
+  padding: 10px;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.score,
+.highscore {
+  color: beige;
+}
+.restartButton {
+  height: 40px;
+  width: 90px;
+  font-size: 50;
+  background: transparent;
+  border-radius: 20px;
+  border: beige solid 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 250ms;
+  &:hover {
+    background-color: beige;
+    color: black;
+    border-color: orange;
+  }
+}

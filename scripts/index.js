@@ -4,6 +4,7 @@ import { waves } from "../GLOBAL/waves.js";
 import keyDown from "./events/keyDown.js";
 import keyUp from "./events/keyUp.js";
 import { Block } from "./objects/Blocks.js";
+import { GameOverCard } from "./objects/GameOverCard.js";
 import Inventory from "./objects/Inventory.js";
 import { Player } from "./objects/Player.js";
 import { ScoreBoard } from "./objects/ScoreBoard.js";
@@ -63,25 +64,38 @@ export const inventory = new Inventory({
   items: [{ name: "block", count: 5 }],
 });
 export const scoreBoard = new ScoreBoard({ initScore: 0 });
-
+const gameOverCard = new GameOverCard();
 //animate
 function animate() {
-  requestAnimationFrame(animate);
+  const id = requestAnimationFrame(animate);
 
+  //waves
   if (zombies.length === 0) {
     wave++;
     for (const [key, value] of Object.entries(waves)) {
       if (key === "NormalZombies") {
         console.log(value);
         for (let i = 0; i < Number(value) * wave; i++) {
-          const zombie = new NormalZombie({ position: { x: 200 * i, y: 200 } });
-          zombies.push(zombie);
+          if (i < (Number(value) * wave) / 2) {
+            const zombie = new NormalZombie({
+              position: { x: -100 * (i + 1), y: canvas.height - 145 },
+            });
+            zombies.push(zombie);
+          } else {
+            const zombie = new NormalZombie({
+              position: {
+                x: canvas.width + 100 * (i + 1),
+                y: canvas.height - 145,
+              },
+            });
+            zombies.push(zombie);
+          }
         }
       }
     }
   }
 
-  if (!state.isPaused && !state.gameOver) {
+  if (!state.isPaused) {
     c.drawImage(image, 0, 0, 1280, 760);
     if (state.phase === "prepare") {
       if (inventory.selectedItem) {
@@ -101,6 +115,11 @@ function animate() {
     placedItems.forEach((placedItem) => {
       placedItem.update({ player });
     });
+  }
+
+  if (state.gameOver) {
+    gameOverCard.show();
+    cancelAnimationFrame(id);
   }
 }
 

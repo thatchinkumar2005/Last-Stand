@@ -101,6 +101,7 @@ export class NormalZombie {
       this.position.x + this.width > player.position.x &&
       this.position.x < player.position.x + player.width &&
       this.position.y + this.height > player.position.y &&
+      this.position.y < player.position.y + player.height &&
       !this.attacking
     ) {
       this.attack({ player });
@@ -111,9 +112,9 @@ export class NormalZombie {
   attack({ player }) {
     setTimeout(() => {
       console.log("attacked");
-      player.health--;
+      player.health -= 10;
       this.attacking = false;
       scoreBoard.refresh({ player });
-    }, 2000);
+    }, 500);
   }
 }
