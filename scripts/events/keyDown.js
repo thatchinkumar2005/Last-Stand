@@ -20,9 +20,7 @@ export default function keyDown(e, keys, Inventory) {
       }
       break;
     case "Shift":
-      const inventory = document.querySelector("#inventory");
-      inventory.style.display =
-        inventory.style.display === "none" ? "flex" : "none";
+      Inventory.toggle();
       console.log(inventory);
       inventory.classList.add("show");
       Inventory.refresh();

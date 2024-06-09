@@ -29,18 +29,32 @@ canvas {
 }
 
 #healthBarContainer {
-  position: absolute;
   width: 300px;
   height: 20px;
   background-color: red;
-  top: 30px;
-  left: 1050px;
+  flex-shrink: 0;
+  flex-grow: 0;
+}
+
+#scoreBoard {
+  position: absolute;
+  height: 30px;
+  width: 600px;
+  margin-bottom: 690px;
+  margin-left: 690px;
+  display: none;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 20px;
+  overflow: hidden;
 }
 
 #healthBar {
   width: 100%;
   height: 100%;
   background-color: blue;
+  flex-shrink: 0;
+  flex-grow: 0;
 }
 
 .inventoryItem {
@@ -59,4 +73,22 @@ canvas {
   justify-content: center;
   align-items: center;
   color: beige;
+}
+
+#pauseButton {
+  height: 40px;
+  width: 40px;
+  background-image: url("../Assets/Pause.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin-right: 10px;
+  transition: all 250ms;
+  &:hover {
+    transform: scale(1.3);
+  }
+}
+
+#score {
+  color: beige;
+  font-size: 35px;
 }

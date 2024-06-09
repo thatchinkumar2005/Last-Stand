@@ -2,12 +2,13 @@ export default class Inventory {
   constructor({ items }) {
     this.items = items;
     this.selectedItem = null;
-
+    const inventory = document.querySelector("#inventory");
+    this.domElement = inventory;
     this.items.forEach((i) => {
       if (i.count === 0) return;
       const item = document.createElement("div");
       item.classList.add(i.name, "inventoryItem");
-      inventory.appendChild(item);
+      this.domElement.appendChild(item);
 
       item.onclick = () => {
         if (i.count < 0) {
@@ -15,20 +16,19 @@ export default class Inventory {
           this.selectedItem = null;
         }
         this.selectedItem = i.name;
-        inventory.style.display = "none";
+        this.domElement.style.display = "none";
       };
     });
   }
 
   refresh() {
-    const inventory = document.querySelector("#inventory");
-    inventory.innerHTML = "";
+    this.domElement.innerHTML = "";
     this.items.forEach((i) => {
       if (i.count === 0) return;
       const item = document.createElement("div");
       item.innerHTML = i.name;
       item.classList.add(i.name, "inventoryItem");
-      inventory.appendChild(item);
+      this.domElement.appendChild(item);
 
       item.onclick = () => {
         if (i.count < 0) {
@@ -36,8 +36,19 @@ export default class Inventory {
           this.selectedItem = null;
         }
         this.selectedItem = i.name;
-        inventory.style.display = "none";
+        this.domElement.style.display = "none";
       };
     });
+  }
+
+  show() {
+    this.domElement.style.display = "flex";
+  }
+  hide() {
+    this.domElement.style.display = "none";
+  }
+  toggle() {
+    this.domElement.style.display =
+      this.domElement.style.display === "none" ? "flex" : "none";
   }
 }

@@ -1,6 +1,6 @@
 import { settings } from "../../GLOBAL/settings.js";
 import randRange from "../../utills/randRange.js";
-import { c, canvas, placedItems, zombies } from "../index.js";
+import { c, canvas, placedItems, scoreBoard, zombies } from "../index.js";
 
 export class NormalZombie {
   constructor({
@@ -15,11 +15,18 @@ export class NormalZombie {
     this.height = height;
     this.velocityMag = randRange(1, 3);
     this.health = 100;
+    this.attacking = false;
   }
 
   draw() {
     c.fillStyle = "green";
     c.fillRect(this.position.x, this.position.y, this.width, this.height);
+    c.fillRect(
+      this.position.x - 10,
+      this.position.y - 30,
+      (20 + this.width) * (this.health / 100),
+      10
+    );
   }
 
   update({ player }) {
@@ -83,9 +90,30 @@ export class NormalZombie {
       }
     });
 
-    if (this.health < 0) {
+    if (this.health <= 0) {
       zombies.splice(zombies.indexOf(this), 1);
+      player.score++;
+      scoreBoard.refresh({ player });
       delete this;
     }
+
+    if (
+      this.position.x + this.width > player.position.x &&
+      this.position.x < player.position.x + player.width &&
+      this.position.y + this.height > player.position.y &&
+      !this.attacking
+    ) {
+      this.attack({ player });
+      this.attacking = true;
+    }
+  }
+
+  attack({ player }) {
+    setTimeout(() => {
+      console.log("attacked");
+      player.health--;
+      this.attacking = false;
+      scoreBoard.refresh({ player });
+    }, 2000);
   }
 }

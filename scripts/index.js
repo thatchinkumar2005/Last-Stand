@@ -6,6 +6,7 @@ import keyUp from "./events/keyUp.js";
 import { Block } from "./objects/Blocks.js";
 import Inventory from "./objects/Inventory.js";
 import { Player } from "./objects/Player.js";
+import { ScoreBoard } from "./objects/ScoreBoard.js";
 import { Weapon } from "./objects/Weapons.js";
 import { NormalZombie } from "./objects/Zombies.js";
 
@@ -56,7 +57,11 @@ const weapon = new Weapon({
 });
 player.weapon = weapon;
 weapon.player = player;
-const inventory = new Inventory({ items: [{ name: "block", count: 5 }] });
+export const inventory = new Inventory({
+  items: [{ name: "block", count: 5 }],
+});
+export const scoreBoard = new ScoreBoard({ initScore: 0 });
+
 //animate
 for (const [key, value] of Object.entries(waves)) {
   if (key === "NormalZombies") {
@@ -79,8 +84,8 @@ function animate() {
       }
     }
   } else {
-    player.update({ placedItems });
-    weapon.update({ player });
+    player.update();
+    weapon.update();
     zombies.forEach((z) => {
       z.update({ player });
     });
