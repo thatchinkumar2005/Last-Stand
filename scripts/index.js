@@ -72,11 +72,11 @@ function animate() {
   //waves
   if (zombies.length === 0) {
     wave++;
-    for (const [key, value] of Object.entries(waves)) {
+    for (let key in waves) {
+      console.log(key);
       if (key === "NormalZombies") {
-        console.log(value);
-        for (let i = 0; i < Number(value) * wave; i++) {
-          if (i < (Number(value) * wave) / 2) {
+        for (let i = 0; i < waves[key] * wave; i++) {
+          if (i < (waves[key] * wave) / 2) {
             const zombie = new NormalZombie({
               position: { x: -100 * (i + 1), y: canvas.height - 145 },
             });
@@ -118,6 +118,7 @@ function animate() {
   }
 
   if (state.gameOver) {
+    gameOverCard.refresh({ player });
     gameOverCard.show();
     cancelAnimationFrame(id);
   }
