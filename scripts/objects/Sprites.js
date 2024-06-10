@@ -3,13 +3,13 @@ import { c } from "../index.js";
 export class Sprite {
   constructor({
     position,
+    imgSrc,
+    framesMax = 1,
     scale = 1,
     scaleXY = {
       x: 1,
       y: 1,
     },
-    imgSrc,
-    framesMax = 1,
     offSet = { x: 0, y: 0 },
   }) {
     this.position = position;

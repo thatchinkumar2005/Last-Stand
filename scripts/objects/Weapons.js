@@ -1,8 +1,25 @@
 import { c, mouse } from "../index.js";
 import { Pellet } from "./Projectiles.js";
+import { Sprite } from "./Sprites.js";
 
-export class Weapon {
-  constructor({ position = { x: 0, y: 0 }, height, width, angle }) {
+export class Weapon extends Sprite {
+  constructor({
+    position = { x: 0, y: 0 },
+    height,
+    width,
+    angle,
+    initSprite = { imgSrc: "Assets/weapons/weapon.png", framesMax: 1 },
+  }) {
+    super({
+      position,
+      imgSrc: initSprite.imgSrc,
+      framesMax: initSprite.framesMax,
+      scale: 2.5,
+      offSet: {
+        x: 8,
+        y: 40,
+      },
+    });
     this.position = position;
     this.angle = angle;
     this.height = height;
@@ -10,17 +27,9 @@ export class Weapon {
     this.bullets = 100;
     this.projectiles = [];
   }
-  draw() {
-    c.save();
-
-    c.translate(this.position.x, this.position.y); //shift origin center of shortside
-
-    c.rotate(this.angle);
-
+  drawHB() {
     c.fillStyle = "grey";
-    c.fillRect(0, -this.height / 2, this.width, this.height);
-
-    c.restore();
+    c.fillRect(0, 0, this.width, this.height);
   }
 
   update() {
@@ -36,14 +45,20 @@ export class Weapon {
 
     this.angle = mouseAngle;
 
-    this.draw();
-    c.restore();
-
     if (this.projectiles.length > 0) {
       this.projectiles.forEach((p) => {
         p.update({ weapon: this });
       });
     }
+    const prevPosition = this.position;
+    c.save();
+    c.translate(this.position.x, this.position.y);
+    c.rotate(this.angle);
+    this.position = { x: 0, y: 0 };
+    this.draw();
+    this.animateFrames();
+    c.restore();
+    this.position = prevPosition;
   }
 
   fire() {
