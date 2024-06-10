@@ -77,7 +77,6 @@ class Player extends Sprite {
 
     //keys controll
     this.velocity.x = 0;
-    this.switchSprites("idle");
     if (keys.d.pressed && !keys.Control.pressed) {
       this.velocity.x = settings.walkSpeed;
       this.switchSprites("walk");
@@ -93,14 +92,18 @@ class Player extends Sprite {
     } else if (keys.Control.pressed && !keys.a.pressed && !keys.d.pressed) {
       this.velocity.x = 0;
       this.switchSprites("idle");
+    } else {
+      this.switchSprites("idle");
     }
     if (keys.space.pressed && (this.onGround || this.onItem)) {
-      this.switchSprites("jump");
       this.velocity.y = -15;
       this.onGround = false;
       this.onItem = false;
     }
 
+    if (this.velocity.y < 0 && !(this.onGround || this.onItem)) {
+      this.switchSprites("jump");
+    }
     //placed Items collision
 
     placedItems.forEach((i) => {

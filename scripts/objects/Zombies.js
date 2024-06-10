@@ -68,7 +68,6 @@ export class NormalZombie extends Sprite {
   update({ player }) {
     this.draw();
     this.animateFrames();
-
     this.position.x += this.velocity.x;
     this.position.y += this.velocity.y;
 
@@ -81,6 +80,9 @@ export class NormalZombie extends Sprite {
     }
 
     //placed Items collision
+    if (this.attacking) {
+      this.switchSprites("attack");
+    } else this.switchSprites("walk");
 
     placedItems.forEach((i) => {
       if (
@@ -98,6 +100,7 @@ export class NormalZombie extends Sprite {
           console.log("right");
           this.position.x = i.position.x + i.width;
           this.velocity.x = 0;
+          this.switchSprites("idle");
         }
       }
     });
@@ -113,10 +116,12 @@ export class NormalZombie extends Sprite {
           console.log("left");
           this.position.x = i.position.x - this.width;
           this.velocity.x = 0;
+          if (i.velocity.x === 0) this.switchSprites("idle");
         } else if (this.position.x > i.position.x) {
           console.log("right");
           this.position.x = i.position.x + i.width;
           this.velocity.x = 0;
+          if (i.velocity.x === 0) this.switchSprites("idle");
         }
       }
     });
@@ -159,18 +164,21 @@ export class NormalZombie extends Sprite {
         if (this.currentSprite !== sprite) {
           this.image = this.sprites[sprite].image;
           this.framesMax = this.sprites[sprite].framesMax;
+          this.currentSprite = sprite;
         }
         break;
       case "walk":
         if (this.currentSprite !== sprite) {
           this.image = this.sprites[sprite].image;
           this.framesMax = this.sprites[sprite].framesMax;
+          this.currentSprite = sprite;
         }
         break;
       case "attack":
         if (this.currentSprite !== sprite) {
           this.image = this.sprites[sprite].image;
           this.framesMax = this.sprites[sprite].framesMax;
+          this.currentSprite = sprite;
         }
         break;
     }
