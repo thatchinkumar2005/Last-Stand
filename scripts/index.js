@@ -8,6 +8,7 @@ import { GameOverCard } from "./objects/GameOverCard.js";
 import Inventory from "./objects/Inventory.js";
 import { Player } from "./objects/Player.js";
 import { ScoreBoard } from "./objects/ScoreBoard.js";
+import { Sprite } from "./objects/Sprites.js";
 import { Weapon } from "./objects/Weapons.js";
 import { NormalZombie } from "./objects/Zombies.js";
 
@@ -17,13 +18,6 @@ export const canvas = document.querySelector("canvas");
 canvas.height = 760;
 canvas.width = 1280;
 export const c = canvas.getContext("2d");
-
-const image = new Image();
-image.src = "Assets/bg.png";
-
-image.onload = () => {
-  animate();
-};
 
 export const keys = {
   d: {
@@ -48,11 +42,13 @@ export const mouse = {
 //Objects
 export const placedItems = [];
 export const zombies = [];
-const player = new Player({ position: { x: 100, y: 100 } });
+const player = new Player({
+  position: { x: 100, y: 100 },
+});
 const weapon = new Weapon({
   position: {
     x: player.position.x,
-    y: player.position.y,
+    y: player.position.y + 100,
   },
   angle: 0,
   height: 30,
@@ -65,6 +61,20 @@ export const inventory = new Inventory({
 });
 export const scoreBoard = new ScoreBoard({ initScore: 0 });
 const gameOverCard = new GameOverCard();
+
+//Sprites
+const bgSprite = new Sprite({
+  position: { x: 0, y: 0 },
+  width: canvas.width,
+  height: canvas.height,
+  imgSrc: "../../Assets/bg.png",
+  scale: 0.525,
+  scaleXY: {
+    y: 1.12,
+    x: 1.14,
+  },
+});
+
 //animate
 function animate() {
   const id = requestAnimationFrame(animate);
@@ -96,7 +106,7 @@ function animate() {
   }
 
   if (!state.isPaused) {
-    c.drawImage(image, 0, 0, 1280, 760);
+    bgSprite.update();
     if (state.phase === "prepare") {
       if (inventory.selectedItem) {
         if (inventory.selectedItem === "block") {
@@ -159,3 +169,5 @@ canvas.addEventListener("mousemove", (e) => {
   mouse.x = e.x;
   mouse.y = e.y;
 });
+
+animate();

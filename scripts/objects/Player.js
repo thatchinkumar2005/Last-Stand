@@ -1,26 +1,66 @@
 import { settings } from "../../GLOBAL/settings.js";
 import { state } from "../../GLOBAL/state.js";
-import { c, canvas, keys, mouse, placedItems } from "../index.js";
+import { c, canvas, keys, placedItems } from "../index.js";
+import { Sprite } from "./Sprites.js";
 
-class Player {
-  constructor({ position = { x: 0, y: 0 } }) {
-    const height = 140;
-    const width = 70;
+class Player extends Sprite {
+  constructor({
+    position = { x: 0, y: 0 },
+    height = 140,
+    width = 70,
+    initSprite = { imgSrc: "Assets/PlayerSprites/Idle.png", framesMax: 8 },
+  }) {
+    super({
+      position,
+      imgSrc: initSprite.imgSrc,
+      framesMax: initSprite.framesMax,
+      offSet: {
+        x: 100,
+        y: 147,
+      },
+      scale: 2.2,
+    });
     this.position = position;
     this.height = height;
     this.width = width;
     this.velocity = { x: 0, y: 0 };
     this.health = 100;
     this.score = 0;
+    this.sprites = {
+      idle: {
+        imgSrc: "Assets/PlayerSprites/Idle.png",
+        framesMax: 8,
+      },
+      run: {
+        imgSrc: "Assets/PlayerSprites/Run.png",
+        framesMax: 8,
+      },
+      walk: {
+        imgSrc: "Assets/PlayerSprites/Walk.png",
+        framesMax: 8,
+      },
+      jump: {
+        imgSrc: "Assets/PlayerSprites/Jump.png",
+        framesMax: 8,
+      },
+    };
+    this.currentSprite = "idle";
+
+    for (const sprite in this.sprites) {
+      const image = new Image();
+      image.src = this.sprites[sprite].imgSrc;
+      this.sprites[sprite].image = image;
+    }
   }
 
-  draw() {
+  drawHB() {
     c.fillStyle = "Red";
     c.fillRect(this.position.x, this.position.y, this.width, this.height);
   }
 
   update() {
     this.draw();
+    this.animateFrames();
 
     //velocity implementation
     this.position.x += this.velocity.x;
@@ -37,18 +77,25 @@ class Player {
 
     //keys controll
     this.velocity.x = 0;
+    this.switchSprites("idle");
     if (keys.d.pressed && !keys.Control.pressed) {
       this.velocity.x = settings.walkSpeed;
+      this.switchSprites("walk");
     } else if (keys.a.pressed && !keys.Control.pressed) {
       this.velocity.x = -settings.walkSpeed;
+      this.switchSprites("walk");
     } else if (keys.Control.pressed && keys.d.pressed) {
       this.velocity.x = settings.runSpeed;
+      this.switchSprites("run");
     } else if (keys.Control.pressed && keys.a.pressed) {
       this.velocity.x = -settings.runSpeed;
+      this.switchSprites("run");
     } else if (keys.Control.pressed && !keys.a.pressed && !keys.d.pressed) {
       this.velocity.x = 0;
+      this.switchSprites("idle");
     }
     if (keys.space.pressed && (this.onGround || this.onItem)) {
+      this.switchSprites("jump");
       this.velocity.y = -15;
       this.onGround = false;
       this.onItem = false;
@@ -81,6 +128,39 @@ class Player {
 
     if (this.health <= 0) {
       state.gameOver = true;
+    }
+  }
+
+  switchSprites(sprite) {
+    switch (sprite) {
+      case "idle":
+        if (this.currentSprite !== "idle") {
+          this.image = this.sprites.idle.image;
+          this.framesMax = this.sprites.idle.framesMax;
+          this.currentSprite = sprite;
+        }
+        break;
+      case "run":
+        if (this.currentSprite !== "run") {
+          this.image = this.sprites.run.image;
+          this.framesMax = this.sprites.run.framesMax;
+          this.currentSprite = sprite;
+        }
+        break;
+      case "walk":
+        if (this.currentSprite !== "walk") {
+          this.image = this.sprites.walk.image;
+          this.framesMax = this.sprites.walk.framesMax;
+          this.currentSprite = sprite;
+        }
+        break;
+      case "jump":
+        if (this.currentSprite !== "jump") {
+          this.image = this.sprites.jump.image;
+          this.framesMax = this.sprites.jump.framesMax;
+          this.currentSprite = sprite;
+        }
+        break;
     }
   }
 }

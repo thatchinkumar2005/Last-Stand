@@ -26,7 +26,7 @@ export class Weapon {
   update() {
     this.position = {
       x: this.player.position.x + this.player.width / 2,
-      y: this.player.position.y,
+      y: this.player.position.y + 60,
     };
 
     let mouseAngle = Math.atan2(
