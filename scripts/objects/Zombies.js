@@ -47,6 +47,11 @@ export class NormalZombie extends Sprite {
         imgSrc: "Assets/ZombieSprites/Attack_2.png",
         framesMax: 4,
       },
+
+      hurt: {
+        imgSrc: "Assets/ZombieSprites/Hurt.png",
+        framesMax: 3,
+      },
     };
     for (const sprite in this.sprites) {
       this.sprites[sprite].image = new Image();
@@ -79,10 +84,18 @@ export class NormalZombie extends Sprite {
       this.velocity.y += settings.gravity;
     }
 
-    //placed Items collision
+    //other animations
     if (this.attacking) {
       this.switchSprites("attack");
+    } else if (this.hurt) {
+      console.log(this.hurt);
+      this.switchSprites("hurt");
+      setTimeout(() => {
+        this.hurt = false;
+      }, 200);
     } else this.switchSprites("walk");
+
+    //placed Items collision
 
     placedItems.forEach((i) => {
       if (
@@ -175,6 +188,13 @@ export class NormalZombie extends Sprite {
         }
         break;
       case "attack":
+        if (this.currentSprite !== sprite) {
+          this.image = this.sprites[sprite].image;
+          this.framesMax = this.sprites[sprite].framesMax;
+          this.currentSprite = sprite;
+        }
+        break;
+      case "hurt":
         if (this.currentSprite !== sprite) {
           this.image = this.sprites[sprite].image;
           this.framesMax = this.sprites[sprite].framesMax;

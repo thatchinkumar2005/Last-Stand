@@ -47,6 +47,7 @@ export class Pellet {
         delete this;
         weapon.projectiles.splice(weapon.projectiles.indexOf(this), 1);
         i.health -= 10;
+        i.hurt = true;
       }
     });
 
