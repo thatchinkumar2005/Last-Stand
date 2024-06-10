@@ -101,7 +101,7 @@ class Player extends Sprite {
       this.onItem = false;
     }
 
-    if (this.velocity.y < 0 && !(this.onGround || this.onItem)) {
+    if (!(this.onGround || this.onItem)) {
       this.switchSprites("jump");
     }
     //placed Items collision
