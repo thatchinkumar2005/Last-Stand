@@ -46,7 +46,7 @@ export default class Inventory {
       for (let weapon in weaponConfig) {
         const item = document.createElement("div");
         item.classList.add(weapon, "inventoryItem");
-        item.innerHTML = `<img src="Assets/weapons/${weapon}.png"/>`;
+        item.innerHTML = `<img src="Assets/weapons/${weapon}Right.png"/>`;
         item.onclick = () => {
           console.log(weapon.name);
           const weaponObj = new Weapon({

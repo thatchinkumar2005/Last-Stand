@@ -6,7 +6,7 @@ export class Weapon extends Sprite {
   constructor({ position = { x: 0, y: 0 }, height, width, angle = 0, config }) {
     super({
       position,
-      imgSrc: config.icon,
+      imgSrc: `Assets/weapons/${config.name}Right.png`,
       framesMax: 1,
       scale: 2.5,
       offSet: {
@@ -14,6 +14,7 @@ export class Weapon extends Sprite {
         y: 40,
       },
     });
+    this.currentSprite = "right";
     this.position = position;
     this.angle = angle;
     this.height = height;
@@ -22,6 +23,21 @@ export class Weapon extends Sprite {
     this.lastFired = 0;
     this.name = config.name;
     this.projectiles = [];
+    this.sprites = {
+      left: {
+        imgSrc: `Assets/weapons/${config.name}Left.png`,
+        framesMax: 1,
+      },
+      right: {
+        imgSrc: `Assets/weapons/${config.name}Right.png`,
+        framesMax: 1,
+      },
+    };
+
+    for (const sprite in this.sprites) {
+      this.sprites[sprite].image = new Image();
+      this.sprites[sprite].image.src = this.sprites[sprite].imgSrc;
+    }
   }
   drawHB() {
     c.fillStyle = "grey";
@@ -37,10 +53,12 @@ export class Weapon extends Sprite {
     let mouseAngle = Math.atan2(mouse.y - this.position.y, canvas.width / 8);
 
     if (this.player.dir === "right") {
+      this.switchSprites("right");
       this.angle = mouseAngle;
     }
     if (this.player.dir === "left") {
-      this.angle = -1 * (-Math.PI + mouseAngle);
+      this.switchSprites("left");
+      this.angle = Math.PI - mouseAngle;
     }
 
     console.log(mouseAngle);
@@ -78,6 +96,25 @@ export class Weapon extends Sprite {
       });
       this.projectiles.push(proj);
       this.lastFired = currentTime; // Update the last fired time
+    }
+  }
+
+  switchSprites(sprite) {
+    switch (sprite) {
+      case "left":
+        if (this.currentSprite !== sprite) {
+          this.image = this.sprites[sprite].image;
+          this.framesMax = this.sprites[sprite].framesMax;
+          this.currentSprite = sprite;
+        }
+        break;
+      case "right":
+        if (this.currentSprite !== sprite) {
+          this.image = this.sprites[sprite].image;
+          this.framesMax = this.sprites[sprite].framesMax;
+          this.currentSprite = sprite;
+        }
+        break;
     }
   }
 }
