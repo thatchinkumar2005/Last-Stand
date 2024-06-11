@@ -1,4 +1,4 @@
-export default function keyUp(e, keys) {
+export default function keyUp({ e, keys }) {
   switch (e.key) {
     case "d":
       keys.d.pressed = false;

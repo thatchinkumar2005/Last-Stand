@@ -1,3 +1,3 @@
 export const waves = {
-  NormalZombies: 10,
+  NormalZombies: 0,
 };

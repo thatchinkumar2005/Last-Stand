@@ -1,11 +1,12 @@
 import { settings } from "../../GLOBAL/settings.js";
 import { c, canvas, placedItems, zombies } from "../index.js";
 
-export class Pellet {
-  constructor({ position, radius, velocity }) {
+export class Projectile {
+  constructor({ position, radius, velocity, config }) {
     this.position = position;
     this.radius = radius;
     this.velocity = velocity;
+    this.config = config;
   }
 
   draw() {
@@ -44,10 +45,10 @@ export class Pellet {
         this.position.x - this.radius < i.position.x + i.width &&
         this.position.y + this.radius > i.position.y
       ) {
-        delete this;
         weapon.projectiles.splice(weapon.projectiles.indexOf(this), 1);
-        i.health -= 10;
+        i.health -= this.config.damage;
         i.hurt = true;
+        delete this;
       }
     });
 

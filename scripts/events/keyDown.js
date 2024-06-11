@@ -1,6 +1,7 @@
 import { state } from "../../GLOBAL/state.js";
+import { inventory } from "../index.js";
 
-export default function keyDown(e, keys, Inventory) {
+export default function keyDown({ e, keys }) {
   console.log(e.key);
   switch (e.key) {
     case "d":
@@ -16,18 +17,21 @@ export default function keyDown(e, keys, Inventory) {
       keys.space.pressed = true;
       if (state.phase === "prepare") {
         state.phase = "play";
-        Inventory.items = [];
+        inventory.items = [];
       }
       break;
     case "Shift":
-      Inventory.toggle();
+      inventory.toggle();
       console.log(inventory);
-      inventory.classList.add("show");
-      Inventory.refresh();
+      inventory.refresh();
       break;
 
     case "Escape":
-      Inventory.selectedItem = null;
+      inventory.selectedItem = null;
+      break;
+    case "F10":
+      state.fireMode = state.fireMode === "single" ? "auto" : "single";
+      console.log(state.fireMode);
       break;
   }
 }

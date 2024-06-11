@@ -1,15 +1,14 @@
-import { settings } from "../GLOBAL/settings.js";
 import { state } from "../GLOBAL/state.js";
 import { waves } from "../GLOBAL/waves.js";
+import click from "./events/handleClick.js";
 import keyDown from "./events/keyDown.js";
 import keyUp from "./events/keyUp.js";
-import { Block } from "./objects/Blocks.js";
+import mouseUpDown from "./events/mouseUpDown.js";
 import { GameOverCard } from "./objects/GameOverCard.js";
 import Inventory from "./objects/Inventory.js";
 import { Player } from "./objects/Player.js";
 import { ScoreBoard } from "./objects/ScoreBoard.js";
 import { Sprite } from "./objects/Sprites.js";
-import { Weapon } from "./objects/Weapons.js";
 import { NormalZombie } from "./objects/Zombies.js";
 
 let wave = 0;
@@ -37,29 +36,30 @@ export const keys = {
 export const mouse = {
   x: canvas.width / 2,
   y: canvas.height / 2,
+  clicked: false,
 };
 
 //Objects
 export const placedItems = [];
+
 export const zombies = [];
+
+export const inventory = new Inventory({
+  items: { prepare: [{ name: "block", count: 5 }], play: [] },
+});
+inventory.refresh();
+
 const player = new Player({
   position: { x: 100, y: 100 },
 });
-const weapon = new Weapon({
-  position: {
-    x: player.position.x,
-    y: player.position.y + 100,
-  },
-  angle: 0,
-  height: 30,
-  width: 100,
-});
+
+const weapon = inventory.weapon;
+
 player.weapon = weapon;
 weapon.player = player;
-export const inventory = new Inventory({
-  items: [{ name: "block", count: 5 }],
-});
+
 export const scoreBoard = new ScoreBoard({ initScore: 0 });
+
 const gameOverCard = new GameOverCard();
 
 //Sprites
@@ -114,12 +114,15 @@ function animate() {
           c.fillRect(mouse.x, mouse.y, 100, 100);
         }
       }
-    } else {
+    } else if (state.phase === "play") {
       player.update();
       weapon.update();
       zombies.forEach((z) => {
         z.update({ player });
       });
+      if (state.fireMode === "auto" && mouse.clicked) {
+        weapon.fire();
+      }
     }
 
     placedItems.forEach((placedItem) => {
@@ -137,37 +140,33 @@ function animate() {
 //eventListeners
 
 function handleKeyDown(e) {
-  keyDown(e, keys, inventory);
+  keyDown({ e, keys, inventory });
 }
 window.addEventListener("keydown", handleKeyDown);
 
 function handleKeyUp(e) {
-  keyUp(e, keys, inventory);
+  keyUp({ e, keys, inventory });
 }
 window.addEventListener("keyup", handleKeyUp);
 
-canvas.addEventListener("click", () => {
-  if (inventory.selectedItem) {
-    if (inventory.selectedItem === "block") {
-      const block = new Block({
-        position: { x: mouse.x, y: mouse.y },
-        otherItems: structuredClone(placedItems),
-      });
-      placedItems.push(block);
-      inventory.items[0].count--;
-
-      if (inventory.items[0].count === 0) inventory.selectedItem = null;
-      console.log(inventory.items);
-    }
-  }
-  if (state.phase === "play") {
-    weapon.fire();
-  }
-});
+function handleClick(e) {
+  click({ weapon });
+}
+canvas.addEventListener("click", handleClick);
 
 canvas.addEventListener("mousemove", (e) => {
   mouse.x = e.x;
   mouse.y = e.y;
 });
+
+function handleMouseDown(e) {
+  mouseUpDown({ e, weapon });
+}
+addEventListener("mousedown", handleMouseDown);
+
+function handleMouseUp(e) {
+  mouseUpDown({ e, weapon });
+}
+addEventListener("mouseup", handleMouseUp);
 
 animate();

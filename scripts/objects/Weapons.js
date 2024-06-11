@@ -1,19 +1,13 @@
 import { c, mouse } from "../index.js";
-import { Pellet } from "./Projectiles.js";
+import { Projectile } from "./Projectiles.js";
 import { Sprite } from "./Sprites.js";
 
 export class Weapon extends Sprite {
-  constructor({
-    position = { x: 0, y: 0 },
-    height,
-    width,
-    angle,
-    initSprite = { imgSrc: "Assets/weapons/weapon.png", framesMax: 1 },
-  }) {
+  constructor({ position = { x: 0, y: 0 }, height, width, angle = 0, config }) {
     super({
       position,
-      imgSrc: initSprite.imgSrc,
-      framesMax: initSprite.framesMax,
+      imgSrc: config.icon,
+      framesMax: 1,
       scale: 2.5,
       offSet: {
         x: 8,
@@ -24,7 +18,9 @@ export class Weapon extends Sprite {
     this.angle = angle;
     this.height = height;
     this.width = width;
-    this.bullets = 100;
+    this.config = config;
+    this.lastFired = 0;
+    this.name = config.name;
     this.projectiles = [];
   }
   drawHB() {
@@ -62,18 +58,22 @@ export class Weapon extends Sprite {
   }
 
   fire() {
-    const proj = new Pellet({
-      position: {
-        x: this.position.x + this.width * Math.cos(this.angle),
-        y: this.position.y + this.width * Math.sin(this.angle),
-      },
-      radius: 10,
-      velocity: {
-        x: 40 * Math.cos(this.angle),
-        y: 40 * Math.sin(this.angle),
-      },
-    });
-
-    this.projectiles.push(proj);
+    const currentTime = Date.now();
+    if (currentTime - this.lastFired >= this.config.fireInterval) {
+      const proj = new Projectile({
+        position: {
+          x: this.position.x + this.width * Math.cos(this.angle),
+          y: this.position.y + this.width * Math.sin(this.angle),
+        },
+        radius: this.config.bulletRadius,
+        velocity: {
+          x: this.config.bulletVelocity * Math.cos(this.angle),
+          y: this.config.bulletVelocity * Math.sin(this.angle),
+        },
+        config: this.config,
+      });
+      this.projectiles.push(proj);
+      this.lastFired = currentTime; // Update the last fired time
+    }
   }
 }
