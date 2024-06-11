@@ -3,11 +3,12 @@ import { weaponConfig } from "../../GLOBAL/weaponConfig.js";
 import { Weapon } from "./Weapons.js";
 
 export default class Inventory {
-  constructor({ items }) {
+  constructor({ items, player }) {
     this.items = items;
     this.selectedItem = null;
     const inventory = document.querySelector("#inventory");
     this.domElement = inventory;
+    this.player = player;
     const weapon = new Weapon({
       position: {
         x: 0,
@@ -17,6 +18,7 @@ export default class Inventory {
       height: 30,
       width: 100,
       config: weaponConfig.AR,
+      player,
     });
     this.weapon = weapon;
   }
@@ -47,6 +49,7 @@ export default class Inventory {
         item.classList.add(weapon, "inventoryItem");
         item.innerHTML = `<img src="Assets/weapons/${weapon}.png"/>`;
         item.onclick = () => {
+          console.log(weapon.name);
           const weaponObj = new Weapon({
             position: {
               x: 0,
@@ -57,7 +60,11 @@ export default class Inventory {
             width: 100,
             config: weaponConfig[weapon],
           });
+          delete this.weapon;
           this.weapon = weaponObj;
+          this.weapon.player = this.player;
+          console.log(this.weapon.name);
+          this.toggle();
         };
         this.domElement.appendChild(item);
       }

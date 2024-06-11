@@ -44,19 +44,18 @@ export const placedItems = [];
 
 export const zombies = [];
 
-export const inventory = new Inventory({
-  items: { prepare: [{ name: "block", count: 5 }], play: [] },
-});
-inventory.refresh();
-
 const player = new Player({
   position: { x: 100, y: 100 },
 });
 
-const weapon = inventory.weapon;
+export const inventory = new Inventory({
+  items: { prepare: [{ name: "block", count: 5 }], play: [] },
+  player,
+});
+inventory.refresh();
 
-player.weapon = weapon;
-weapon.player = player;
+player.weapon = inventory.weapon;
+inventory.weapon.player = player;
 
 export const scoreBoard = new ScoreBoard({ initScore: 0 });
 
@@ -83,7 +82,6 @@ function animate() {
   if (zombies.length === 0) {
     wave++;
     for (let key in waves) {
-      console.log(key);
       if (key === "NormalZombies") {
         for (let i = 0; i < waves[key] * wave; i++) {
           if (i < (waves[key] * wave) / 2) {
@@ -116,12 +114,12 @@ function animate() {
       }
     } else if (state.phase === "play") {
       player.update();
-      weapon.update();
+      inventory.weapon.update();
       zombies.forEach((z) => {
         z.update({ player });
       });
       if (state.fireMode === "auto" && mouse.clicked) {
-        weapon.fire();
+        inventory.weapon.fire();
       }
     }
 
@@ -150,7 +148,7 @@ function handleKeyUp(e) {
 window.addEventListener("keyup", handleKeyUp);
 
 function handleClick(e) {
-  click({ weapon });
+  click({ weapon: inventory.weapon });
 }
 canvas.addEventListener("click", handleClick);
 
@@ -160,12 +158,12 @@ canvas.addEventListener("mousemove", (e) => {
 });
 
 function handleMouseDown(e) {
-  mouseUpDown({ e, weapon });
+  mouseUpDown({ e });
 }
 addEventListener("mousedown", handleMouseDown);
 
 function handleMouseUp(e) {
-  mouseUpDown({ e, weapon });
+  mouseUpDown({ e });
 }
 addEventListener("mouseup", handleMouseUp);
 

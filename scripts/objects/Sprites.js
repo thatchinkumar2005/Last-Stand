@@ -46,7 +46,6 @@ export class Sprite {
     if (this.framesElapsed % this.framesHold === 0) {
       if (this.currentFrame < this.framesMax - 1) {
         this.currentFrame++;
-        console.log(this.currentFrame);
       } else {
         this.currentFrame = 0;
       }
