@@ -26,17 +26,26 @@ class Player extends Sprite {
     this.velocity = { x: 0, y: 0 };
     this.health = 100;
     this.score = 0;
+    this.dir = "right";
     this.sprites = {
       idle: {
         imgSrc: "Assets/PlayerSprites/Idle.png",
         framesMax: 8,
       },
-      run: {
-        imgSrc: "Assets/PlayerSprites/Run.png",
+      runRight: {
+        imgSrc: "Assets/PlayerSprites/RunRight.png",
         framesMax: 8,
       },
-      walk: {
-        imgSrc: "Assets/PlayerSprites/Walk.png",
+      runLeft: {
+        imgSrc: "Assets/PlayerSprites/RunLeft.png",
+        framesMax: 8,
+      },
+      walkRight: {
+        imgSrc: "Assets/PlayerSprites/WalkRight.png",
+        framesMax: 8,
+      },
+      walkLeft: {
+        imgSrc: "Assets/PlayerSprites/WalkLeft.png",
         framesMax: 8,
       },
       jump: {
@@ -79,16 +88,20 @@ class Player extends Sprite {
     this.velocity.x = 0;
     if (keys.d.pressed && !keys.Control.pressed) {
       this.velocity.x = settings.walkSpeed;
-      this.switchSprites("walk");
+      this.switchSprites("walkRight");
+      this.dir = "right";
     } else if (keys.a.pressed && !keys.Control.pressed) {
       this.velocity.x = -settings.walkSpeed;
-      this.switchSprites("walk");
+      this.switchSprites("walkLeft");
+      this.dir = "left";
     } else if (keys.Control.pressed && keys.d.pressed) {
       this.velocity.x = settings.runSpeed;
-      this.switchSprites("run");
+      this.switchSprites("runRight");
+      this.dir = "right";
     } else if (keys.Control.pressed && keys.a.pressed) {
       this.velocity.x = -settings.runSpeed;
-      this.switchSprites("run");
+      this.switchSprites("runLeft");
+      this.dir = "left";
     } else if (keys.Control.pressed && !keys.a.pressed && !keys.d.pressed) {
       this.velocity.x = 0;
       this.switchSprites("idle");
@@ -137,28 +150,42 @@ class Player extends Sprite {
   switchSprites(sprite) {
     switch (sprite) {
       case "idle":
-        if (this.currentSprite !== "idle") {
+        if (this.currentSprite !== sprite) {
           this.image = this.sprites.idle.image;
           this.framesMax = this.sprites.idle.framesMax;
           this.currentSprite = sprite;
         }
         break;
-      case "run":
-        if (this.currentSprite !== "run") {
-          this.image = this.sprites.run.image;
-          this.framesMax = this.sprites.run.framesMax;
+      case "runRight":
+        if (this.currentSprite !== sprite) {
+          this.image = this.sprites.runRight.image;
+          this.framesMax = this.sprites.runRight.framesMax;
           this.currentSprite = sprite;
         }
         break;
-      case "walk":
-        if (this.currentSprite !== "walk") {
-          this.image = this.sprites.walk.image;
-          this.framesMax = this.sprites.walk.framesMax;
+      case "runLeft":
+        if (this.currentSprite !== sprite) {
+          this.image = this.sprites.runLeft.image;
+          this.framesMax = this.sprites.runLeft.framesMax;
+          this.currentSprite = sprite;
+        }
+        break;
+      case "walkRight":
+        if (this.currentSprite !== sprite) {
+          this.image = this.sprites.walkRight.image;
+          this.framesMax = this.sprites.walkRight.framesMax;
+          this.currentSprite = sprite;
+        }
+        break;
+      case "walkLeft":
+        if (this.currentSprite !== sprite) {
+          this.image = this.sprites.walkLeft.image;
+          this.framesMax = this.sprites.walkLeft.framesMax;
           this.currentSprite = sprite;
         }
         break;
       case "jump":
-        if (this.currentSprite !== "jump") {
+        if (this.currentSprite !== sprite) {
           this.image = this.sprites.jump.image;
           this.framesMax = this.sprites.jump.framesMax;
           this.currentSprite = sprite;

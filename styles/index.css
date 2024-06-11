@@ -63,6 +63,7 @@ canvas {
   background: transparent;
   border: 1px solid beige;
   border-radius: 10px;
+  margin-right: 10px;
   transition: all 250ms;
   &:hover {
     background-color: skyblue;

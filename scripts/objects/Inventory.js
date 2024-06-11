@@ -14,7 +14,6 @@ export default class Inventory {
         x: 0,
         y: 0,
       },
-      angle: 0,
       height: 30,
       width: 100,
       config: weaponConfig.AR,

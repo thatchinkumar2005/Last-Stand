@@ -1,4 +1,4 @@
-import { c, mouse } from "../index.js";
+import { c, canvas, keys, mouse } from "../index.js";
 import { Projectile } from "./Projectiles.js";
 import { Sprite } from "./Sprites.js";
 
@@ -34,12 +34,16 @@ export class Weapon extends Sprite {
       y: this.player.position.y + 60,
     };
 
-    let mouseAngle = Math.atan2(
-      mouse.y - this.position.y,
-      mouse.x - this.position.x
-    );
+    let mouseAngle = Math.atan2(mouse.y - this.position.y, canvas.width / 8);
 
-    this.angle = mouseAngle;
+    if (this.player.dir === "right") {
+      this.angle = mouseAngle;
+    }
+    if (this.player.dir === "left") {
+      this.angle = -1 * (-Math.PI + mouseAngle);
+    }
+
+    console.log(mouseAngle);
 
     if (this.projectiles.length > 0) {
       this.projectiles.forEach((p) => {
