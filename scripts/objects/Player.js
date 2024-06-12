@@ -1,5 +1,6 @@
 import { settings } from "../../GLOBAL/settings.js";
 import { state } from "../../GLOBAL/state.js";
+import { weaponConfig } from "../../GLOBAL/weaponConfig.js";
 import { c, canvas, keys, placedItems } from "../index.js";
 import { Sprite } from "./Sprites.js";
 
@@ -27,6 +28,7 @@ class Player extends Sprite {
     this.health = 100;
     this.score = 0;
     this.dir = "right";
+    this.skill = null;
     this.sprites = {
       idleRight: {
         imgSrc: "Assets/PlayerSprites/IdleRight.png",

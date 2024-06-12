@@ -1,3 +1,4 @@
+import { skills } from "../../GLOBAL/skillConfig.js";
 import { state } from "../../GLOBAL/state.js";
 import { weaponConfig } from "../../GLOBAL/weaponConfig.js";
 import { Weapon } from "./Weapons.js";
@@ -20,6 +21,10 @@ export default class Inventory {
       player,
     });
     this.weapon = weapon;
+    this.skill = {
+      name: null,
+      timerId: null,
+    };
   }
 
   refresh() {
@@ -66,6 +71,29 @@ export default class Inventory {
           this.toggle();
         };
         this.domElement.appendChild(item);
+      }
+
+      for (let skill of skills) {
+        console.log(skill);
+        const item = document.createElement("div");
+        item.classList.add("inventoryItem", "skill", skill);
+        item.innerHTML = `<img src="Assets/SkillIcons/2/${skill}.png"/>`;
+        this.domElement.appendChild(item);
+
+        item.onclick = () => {
+          this.player.skill = skill;
+          skills.splice(skills.indexOf(skill), 1);
+          item.remove();
+          clearTimeout(this.skill.timerId);
+          console.log(this.player.skill);
+          const id = setTimeout(() => {
+            console.log(this.player.skill);
+            this.player.skill = null;
+            console.log(this.player.skill);
+          }, 10000);
+          this.skill.name = skill;
+          this.skill.timerId = id;
+        };
       }
     }
   }

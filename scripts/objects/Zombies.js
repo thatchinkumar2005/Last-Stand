@@ -209,7 +209,7 @@ export class NormalZombie extends Sprite {
   attack({ player }) {
     setTimeout(() => {
       console.log("attacked");
-      player.health -= this.damage;
+      if (player.skill !== "infinity") player.health -= this.damage;
       this.attacking = false;
       scoreBoard.refresh({ player });
     }, 500);

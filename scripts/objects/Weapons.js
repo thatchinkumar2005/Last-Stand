@@ -79,7 +79,12 @@ export class Weapon extends Sprite {
 
   fire() {
     const currentTime = Date.now();
-    if (currentTime - this.lastFired >= this.config.fireInterval) {
+    if (
+      currentTime - this.lastFired >=
+      (this.player.skill === "increasedFireRate"
+        ? 50
+        : this.config.fireInterval)
+    ) {
       const proj = new Projectile({
         position: {
           x: this.position.x + this.width * Math.cos(this.angle),

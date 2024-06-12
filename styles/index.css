@@ -74,6 +74,7 @@ canvas {
   justify-content: center;
   align-items: center;
   color: beige;
+  position: relative;
 }
 
 #pauseButton {
@@ -130,4 +131,12 @@ canvas {
     color: black;
     border-color: orange;
   }
+}
+
+.mask {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  border-radius: 10px;
+  background-color: rgba(252, 98, 3, 0.5);
 }
