@@ -47,7 +47,7 @@ export class Weapon extends Sprite {
   update() {
     this.position = {
       x: this.player.position.x + this.player.width / 2,
-      y: this.player.position.y + (this.player.dir === "left" ? 110 : 80),
+      y: this.player.position.y + (this.player.dir === "right" ? 80 : 110),
     };
 
     let mouseAngle = Math.atan2(mouse.y - this.position.y, canvas.width / 8);
@@ -60,8 +60,6 @@ export class Weapon extends Sprite {
       this.switchSprites("left");
       this.angle = Math.PI - mouseAngle;
     }
-
-    console.log(mouseAngle);
 
     if (this.projectiles.length > 0) {
       this.projectiles.forEach((p) => {

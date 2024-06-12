@@ -6,7 +6,7 @@ import { Sprite } from "./Sprites.js";
 class Player extends Sprite {
   constructor({
     position = { x: 0, y: 0 },
-    height = 140,
+    height = 180,
     width = 70,
     initSprite = { imgSrc: "Assets/PlayerSprites/IdleRight.png", framesMax: 8 },
   }) {
@@ -15,10 +15,10 @@ class Player extends Sprite {
       imgSrc: initSprite.imgSrc,
       framesMax: initSprite.framesMax,
       offSet: {
-        x: 100,
-        y: 147,
+        x: 145,
+        y: 165,
       },
-      scale: 2.2,
+      scale: 2.7,
     });
     this.position = position;
     this.height = height;
@@ -52,8 +52,12 @@ class Player extends Sprite {
         imgSrc: "Assets/PlayerSprites/WalkLeft.png",
         framesMax: 8,
       },
-      jump: {
-        imgSrc: "Assets/PlayerSprites/Jump.png",
+      jumpRight: {
+        imgSrc: "Assets/PlayerSprites/JumpRight.png",
+        framesMax: 8,
+      },
+      jumpLeft: {
+        imgSrc: "Assets/PlayerSprites/JumpLeft.png",
         framesMax: 8,
       },
     };
@@ -199,7 +203,14 @@ class Player extends Sprite {
           this.currentSprite = sprite;
         }
         break;
-      case "jump":
+      case "jumpRight":
+        if (this.currentSprite !== sprite) {
+          this.image = this.sprites[sprite].image;
+          this.framesMax = this.sprites[sprite].framesMax;
+          this.currentSprite = sprite;
+        }
+        break;
+      case "jumpLeft":
         if (this.currentSprite !== sprite) {
           this.image = this.sprites[sprite].image;
           this.framesMax = this.sprites[sprite].framesMax;

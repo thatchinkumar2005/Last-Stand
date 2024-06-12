@@ -10,7 +10,7 @@ export class NormalZombie extends Sprite {
     width = 70,
     height = 140,
     initSprite = {
-      imgSrc: "Assets/ZombieSprites/Walk.png",
+      imgSrc: "Assets/ZombieSprites/WalkLeft.png",
       framesMax: 8,
     },
   }) {
@@ -32,24 +32,41 @@ export class NormalZombie extends Sprite {
     this.health = 100;
     this.damage = 10;
     this.attacking = false;
-    this.currentSprite = "walk";
+    this.currentSprite = "walkLeft";
+    this.dir = "right";
     this.sprites = {
-      idle: {
-        imgSrc: "Assets/ZombieSprites/Idle.png",
+      idleLeft: {
+        imgSrc: "Assets/ZombieSprites/IdleLeft.png",
         framesMax: 8,
       },
-      walk: {
-        imgSrc: "Assets/ZombieSprites/Walk.png",
+      idleRight: {
+        imgSrc: "Assets/ZombieSprites/IdleRight.png",
+        framesMax: 8,
+      },
+      walkLeft: {
+        imgSrc: "Assets/ZombieSprites/WalkLeft.png",
+        framesMax: 8,
+      },
+      walkRight: {
+        imgSrc: "Assets/ZombieSprites/WalkRight.png",
         framesMax: 8,
       },
 
-      attack: {
-        imgSrc: "Assets/ZombieSprites/Attack_2.png",
+      attackLeft: {
+        imgSrc: "Assets/ZombieSprites/AttackLeft.png",
+        framesMax: 4,
+      },
+      attackRight: {
+        imgSrc: "Assets/ZombieSprites/AttackRight.png",
         framesMax: 4,
       },
 
-      hurt: {
-        imgSrc: "Assets/ZombieSprites/Hurt.png",
+      hurtLeft: {
+        imgSrc: "Assets/ZombieSprites/HurtLeft.png",
+        framesMax: 3,
+      },
+      hurtRight: {
+        imgSrc: "Assets/ZombieSprites/HurtRight.png",
         framesMax: 3,
       },
     };
@@ -86,14 +103,27 @@ export class NormalZombie extends Sprite {
 
     //other animations
     if (this.attacking) {
-      this.switchSprites("attack");
+      if (this.dir === "left") {
+        this.switchSprites("attackLeft");
+      } else if (this.dir === "right") {
+        this.switchSprites("attackRight");
+      }
     } else if (this.hurt) {
-      console.log(this.hurt);
-      this.switchSprites("hurt");
+      if (this.dir === "left") {
+        this.switchSprites("hurtLeft");
+      } else if (this.dir === "right") {
+        this.switchSprites("hurtRight");
+      }
       setTimeout(() => {
         this.hurt = false;
       }, 200);
-    } else this.switchSprites("walk");
+    } else {
+      if (this.dir === "left") {
+        this.switchSprites("walkLeft");
+      } else if (this.dir === "right") {
+        this.switchSprites("walkRight");
+      }
+    }
 
     //placed Items collision
 
@@ -108,12 +138,20 @@ export class NormalZombie extends Sprite {
           console.log("left");
           this.position.x = i.position.x - this.width;
           this.velocity.x = 0;
-          this.switchSprites("idle");
+          if (this.dir === "left") {
+            this.switchSprites("idleLeft");
+          } else if (this.dir === "right") {
+            this.switchSprites("idleRight");
+          }
         } else if (this.position.x > i.position.x) {
           console.log("right");
           this.position.x = i.position.x + i.width;
           this.velocity.x = 0;
-          this.switchSprites("idle");
+          if (this.dir === "left") {
+            this.switchSprites("attackLeft");
+          } else if (this.dir === "right") {
+            this.switchSprites("attackRight");
+          }
         }
       }
     });
@@ -142,6 +180,12 @@ export class NormalZombie extends Sprite {
     const diff = player.position.x - this.position.x;
     const i = diff > 0 ? 1 : diff === 0 ? 0 : -1;
     this.velocity.x = this.velocityMag * i;
+
+    if (this.velocity.x > 0) {
+      this.dir = "right";
+    } else if (this.velocity.x < 0) {
+      this.dir = "left";
+    }
 
     if (this.health <= 0) {
       zombies.splice(zombies.indexOf(this), 1);
@@ -173,28 +217,56 @@ export class NormalZombie extends Sprite {
 
   switchSprites(sprite) {
     switch (sprite) {
-      case "idle":
+      case "idleLeft":
         if (this.currentSprite !== sprite) {
           this.image = this.sprites[sprite].image;
           this.framesMax = this.sprites[sprite].framesMax;
           this.currentSprite = sprite;
         }
         break;
-      case "walk":
+      case "idleRight":
         if (this.currentSprite !== sprite) {
           this.image = this.sprites[sprite].image;
           this.framesMax = this.sprites[sprite].framesMax;
           this.currentSprite = sprite;
         }
         break;
-      case "attack":
+      case "walkLeft":
         if (this.currentSprite !== sprite) {
           this.image = this.sprites[sprite].image;
           this.framesMax = this.sprites[sprite].framesMax;
           this.currentSprite = sprite;
         }
         break;
-      case "hurt":
+      case "walkRight":
+        if (this.currentSprite !== sprite) {
+          this.image = this.sprites[sprite].image;
+          this.framesMax = this.sprites[sprite].framesMax;
+          this.currentSprite = sprite;
+        }
+        break;
+      case "attackLeft":
+        if (this.currentSprite !== sprite) {
+          this.image = this.sprites[sprite].image;
+          this.framesMax = this.sprites[sprite].framesMax;
+          this.currentSprite = sprite;
+        }
+        break;
+      case "attackRight":
+        if (this.currentSprite !== sprite) {
+          this.image = this.sprites[sprite].image;
+          this.framesMax = this.sprites[sprite].framesMax;
+          this.currentSprite = sprite;
+        }
+        break;
+      case "hurtLeft":
+        if (this.currentSprite !== sprite) {
+          this.image = this.sprites[sprite].image;
+          this.framesMax = this.sprites[sprite].framesMax;
+          this.currentSprite = sprite;
+        }
+        break;
+      case "hurtRight":
         if (this.currentSprite !== sprite) {
           this.image = this.sprites[sprite].image;
           this.framesMax = this.sprites[sprite].framesMax;
