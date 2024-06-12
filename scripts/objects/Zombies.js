@@ -88,6 +88,7 @@ export class NormalZombie extends Sprite {
   }
 
   update({ player }) {
+    this.drawHB();
     this.draw();
     this.animateFrames();
     this.position.x += this.velocity.x;
@@ -148,9 +149,9 @@ export class NormalZombie extends Sprite {
           this.position.x = i.position.x + i.width;
           this.velocity.x = 0;
           if (this.dir === "left") {
-            this.switchSprites("attackLeft");
+            this.switchSprites("idleLeft");
           } else if (this.dir === "right") {
-            this.switchSprites("attackRight");
+            this.switchSprites("idleRight");
           }
         }
       }
