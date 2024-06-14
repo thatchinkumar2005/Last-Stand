@@ -141,6 +141,7 @@ class Player extends Sprite {
         this.height < i.position.y + i.height
       ) {
         if (this.onGround) {
+          //collision with block if not jumping
           if (this.position.x < i.position.x) {
             console.log("left");
             this.position.x = i.position.x - this.width;
@@ -149,6 +150,7 @@ class Player extends Sprite {
             this.position.x = i.position.x + i.width;
           }
         } else {
+          //jump on top of block if jump is pressed
           this.position.y = i.position.y - this.height;
           this.velocity.y = 0;
           this.onItem = true;

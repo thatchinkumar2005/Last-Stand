@@ -9,7 +9,7 @@ import Inventory from "./objects/Inventory.js";
 import { Player } from "./objects/Player.js";
 import { ScoreBoard } from "./objects/ScoreBoard.js";
 import { Sprite } from "./objects/Sprites.js";
-import { NormalZombie } from "./objects/Zombies.js";
+import { ClimberZombie, NormalZombie } from "./objects/Zombies.js";
 
 let wave = 0;
 
@@ -91,6 +91,23 @@ function animate() {
             zombies.push(zombie);
           } else {
             const zombie = new NormalZombie({
+              position: {
+                x: canvas.width + 100 * (i + 1),
+                y: canvas.height - 145,
+              },
+            });
+            zombies.push(zombie);
+          }
+        }
+      } else if (key === "ClimberZombies") {
+        for (let i = 0; i < waves[key] * wave; i++) {
+          if (i < (waves[key] * wave) / 2) {
+            const zombie = new ClimberZombie({
+              position: { x: -100 * (i + 1), y: canvas.height - 145 },
+            });
+            zombies.push(zombie);
+          } else {
+            const zombie = new ClimberZombie({
               position: {
                 x: canvas.width + 100 * (i + 1),
                 y: canvas.height - 145,
