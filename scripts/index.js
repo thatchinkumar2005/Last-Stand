@@ -9,6 +9,7 @@ import { GameOverCard } from "./objects/GameOverCard.js";
 import Inventory from "./objects/Inventory.js";
 import { Player } from "./objects/Player.js";
 import { ScoreBoard } from "./objects/ScoreBoard.js";
+import SentryCannon from "./objects/SentryCannon.js";
 import { Sprite } from "./objects/Sprites.js";
 import { Trap } from "./objects/Trap.js";
 import { ClimberZombie, NormalZombie } from "./objects/Zombies.js";
@@ -133,6 +134,12 @@ function animate() {
           case "trap":
             const trap = new Trap({ position: { x: mouse.x, y: mouse.y } });
             trap.drawHB();
+            break;
+          case "sentryCannon":
+            const sentryCannon = new SentryCannon({
+              position: { x: mouse.x, y: mouse.y },
+            });
+            sentryCannon.drawHB();
             break;
         }
       }

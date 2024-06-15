@@ -3,6 +3,7 @@ import { state } from "../../GLOBAL/state.js";
 import { Block } from "../objects/Blocks.js";
 import { items } from "../../GLOBAL/defensiveItems.js";
 import { Trap } from "../objects/Trap.js";
+import SentryCannon from "../objects/SentryCannon.js";
 
 export default function click({ weapon }) {
   if (state.phase === "prepare") {
@@ -21,6 +22,15 @@ export default function click({ weapon }) {
           position: { x: mouse.x, y: mouse.y },
         });
         placedItems.push(trap);
+        items[inventory.selectedItem].count--;
+        if (items[inventory.selectedItem].count <= 0)
+          inventory.selectedItem = null;
+        break;
+      case "sentryCannon":
+        const sentryCannon = new SentryCannon({
+          position: { x: mouse.x, y: mouse.y },
+        });
+        placedItems.push(sentryCannon);
         items[inventory.selectedItem].count--;
         if (items[inventory.selectedItem].count <= 0)
           inventory.selectedItem = null;

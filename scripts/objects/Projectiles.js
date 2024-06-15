@@ -29,6 +29,10 @@ export class Projectile {
     }
 
     placedItems.forEach((i) => {
+      if (i === weapon) {
+        console.log("returned");
+        return;
+      }
       if (
         this.position.x + this.radius > i.position.x &&
         this.position.x - this.radius < i.position.x + i.width &&

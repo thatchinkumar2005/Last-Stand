@@ -406,7 +406,7 @@ export class ClimberZombie extends Sprite {
 
     //placed Items collision
 
-    placedItems.forEach((i) => {
+    placedItems.forEach((i, ind) => {
       if (
         this.position.x + this.width > i.position.x &&
         this.position.x < i.position.x + i.width &&
@@ -414,6 +414,7 @@ export class ClimberZombie extends Sprite {
         this.position.y < i.position.y + i.height
       ) {
         if (i.name === "trap") {
+          placedItems.splice(ind, 1);
           this.health = 0;
           return;
         }
