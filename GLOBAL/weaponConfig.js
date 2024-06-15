@@ -3,7 +3,7 @@ export const weaponConfig = {
     icon: "Assets/weapons/AR.png",
     damage: 20,
     bulletRadius: 10,
-    bulletVelocity: 40,
+    bulletVelocity: 10,
     fireInterval: 500,
     name: "AR",
   },

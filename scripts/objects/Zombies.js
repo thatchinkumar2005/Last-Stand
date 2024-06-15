@@ -88,7 +88,6 @@ export class NormalZombie extends Sprite {
   }
 
   update({ player }) {
-    this.drawHB();
     this.draw();
     this.animateFrames();
     this.position.x += this.velocity.x;
@@ -363,7 +362,6 @@ export class ClimberZombie extends Sprite {
   }
 
   update({ player }) {
-    this.drawHB();
     this.draw();
     this.animateFrames();
     this.position.x += this.velocity.x;
