@@ -1,11 +1,11 @@
+import { items } from "../../GLOBAL/defensiveItems.js";
 import { skills } from "../../GLOBAL/skillConfig.js";
 import { state } from "../../GLOBAL/state.js";
 import { weaponConfig } from "../../GLOBAL/weaponConfig.js";
 import { Weapon } from "./Weapons.js";
 
 export default class Inventory {
-  constructor({ items, player }) {
-    this.items = items;
+  constructor({ player }) {
     this.selectedItem = null;
     const inventory = document.querySelector("#inventory");
     this.domElement = inventory;
@@ -31,22 +31,36 @@ export default class Inventory {
     const phase = state.phase;
     this.domElement.innerHTML = "";
     if (phase === "prepare") {
-      this.items[phase].forEach((i) => {
-        if (i.count === 0) return;
-        const item = document.createElement("div");
-        item.innerHTML = i.name;
-        item.classList.add(i.name, "inventoryItem");
-        this.domElement.appendChild(item);
+      // this.items[phase].forEach((i) => {
+      //   if (i.count < 0) return;
+      //   const item = document.createElement("div");
+      //   item.innerHTML = i.name;
+      //   item.classList.add(i.name, "inventoryItem");
+      //   this.domElement.appendChild(item);
 
-        item.onclick = () => {
-          if (i.count < 0) {
-            i.count = 0;
-            this.selectedItem = null;
-          }
-          this.selectedItem = i.name;
-          this.domElement.style.display = "none";
+      //   item.onclick = () => {
+      //     if (i.count < 0) {
+      //       i.count = 0;
+      //       this.selectedItem = null;
+      //     }
+      //     this.selectedItem = i.name;
+      //     this.domElement.style.display = "none";
+      //   };
+      // });
+      for (let item in items) {
+        if (items[item].count <= 0) {
+          break;
+        }
+        const itemDiv = document.createElement("div");
+        itemDiv.innerHTML = items[item].name;
+        itemDiv.classList.add(items[item].name, "inventoryItem");
+        this.domElement.appendChild(itemDiv);
+
+        itemDiv.onclick = () => {
+          this.selectedItem = items[item].name;
+          this.hide();
         };
-      });
+      }
     } else if (phase === "play") {
       for (let weapon in weaponConfig) {
         const item = document.createElement("div");

@@ -1,38 +1,28 @@
 import { settings } from "../../GLOBAL/settings.js";
-import { c, canvas, placedItems } from "../index.js";
-import { Sprite } from "./Sprites.js";
+import { c, canvas, placedItems, zombies } from "../index.js";
 
-export class Block extends Sprite {
+export class Trap {
   constructor({
-    position = { x: 0, y: 0 },
-    height = 100,
-    width = 100,
-    initialSprite = { imgSrc: "Assets/Block.png", framesMax: 1 },
+    position,
+    velocity = { x: 0, y: 0 },
+    height = 30,
+    width = 60,
   }) {
-    super({
-      position,
-      imgSrc: initialSprite.imgSrc,
-      framesMax: initialSprite.framesMax,
-      scale: 3.12,
-    });
     this.position = position;
+    this.velocity = velocity;
     this.height = height;
     this.width = width;
-    this.name = "block";
-    this.velocity = {
-      x: 0,
-      y: 0,
-    };
-    this.otherItems = JSON.parse(JSON.stringify(placedItems));
+    this.name = "trap";
+    this.otherItems = [...placedItems];
   }
 
   drawHB() {
-    c.fillStyle = "blue";
+    c.fillStyle = "red";
     c.fillRect(this.position.x, this.position.y, this.width, this.height);
   }
 
   update() {
-    this.draw();
+    this.drawHB();
 
     this.position.x += this.velocity.x;
     this.position.y += this.velocity.y;
@@ -56,5 +46,16 @@ export class Block extends Sprite {
         return;
       }
     });
+
+    // zombies.forEach((z) => {
+    //   if (
+    //     z.position.x + z.width > this.x &&
+    //     z.position.x < this.position.x + this.width &&
+    //     z.position.y + z.height > this.position.x &&
+    //     z.position.y < this.position.x + this.height
+    //   ) {
+    //     z.health = 0;
+    //   }
+    // });
   }
 }

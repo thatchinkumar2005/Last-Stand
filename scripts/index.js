@@ -4,11 +4,13 @@ import click from "./events/handleClick.js";
 import keyDown from "./events/keyDown.js";
 import keyUp from "./events/keyUp.js";
 import mouseUpDown from "./events/mouseUpDown.js";
+import { Block } from "./objects/Blocks.js";
 import { GameOverCard } from "./objects/GameOverCard.js";
 import Inventory from "./objects/Inventory.js";
 import { Player } from "./objects/Player.js";
 import { ScoreBoard } from "./objects/ScoreBoard.js";
 import { Sprite } from "./objects/Sprites.js";
+import { Trap } from "./objects/Trap.js";
 import { ClimberZombie, NormalZombie } from "./objects/Zombies.js";
 
 let wave = 0;
@@ -49,7 +51,6 @@ const player = new Player({
 });
 
 export const inventory = new Inventory({
-  items: { prepare: [{ name: "block", count: 5 }], play: [] },
   player,
 });
 inventory.refresh();
@@ -124,9 +125,15 @@ function animate() {
     bgSprite.update();
     if (state.phase === "prepare") {
       if (inventory.selectedItem) {
-        if (inventory.selectedItem === "block") {
-          c.fillStyle = "rgba(80, 77, 224, 0.8)";
-          c.fillRect(mouse.x, mouse.y, 100, 100);
+        switch (inventory.selectedItem) {
+          case "block":
+            const block = new Block({ position: { x: mouse.x, y: mouse.y } });
+            block.drawHB();
+            break;
+          case "trap":
+            const trap = new Trap({ position: { x: mouse.x, y: mouse.y } });
+            trap.drawHB();
+            break;
         }
       }
     } else if (state.phase === "play") {

@@ -127,13 +127,18 @@ export class NormalZombie extends Sprite {
 
     //placed Items collision
 
-    placedItems.forEach((i) => {
+    placedItems.forEach((i, ind) => {
       if (
         this.position.x + this.width > i.position.x &&
         this.position.x < i.position.x + i.width &&
         this.position.y + this.height > i.position.y &&
         this.position.y < i.position.y + i.height
       ) {
+        if (i.name === "trap") {
+          this.health = 0;
+          placedItems.splice(ind, 1);
+          return;
+        }
         if (this.position.x < i.position.x) {
           console.log("left");
           this.position.x = i.position.x - this.width;
@@ -408,6 +413,10 @@ export class ClimberZombie extends Sprite {
         this.position.y + this.height > i.position.y &&
         this.position.y < i.position.y + i.height
       ) {
+        if (i.name === "trap") {
+          this.health = 0;
+          return;
+        }
         if (this.position.y + this.height > i.position.y) {
           this.velocity.y = 0;
           this.position.y = i.position.y - this.height;
