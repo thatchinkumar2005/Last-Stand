@@ -135,7 +135,7 @@ class Player extends Sprite {
     } else {
       this.jetPack.canFly = true;
     }
-    if (keys.w.pressed && this.jetPack.canFly) {
+    if (keys.w.pressed && !keys.space.pressed && this.jetPack.canFly) {
       this.onGround = false;
       this.jetPack.fuel -= 1;
       this.velocity.y -= 1.1 * settings.gravity;
