@@ -1,6 +1,5 @@
 import { settings } from "../../GLOBAL/settings.js";
 import { state } from "../../GLOBAL/state.js";
-import { weaponConfig } from "../../GLOBAL/weaponConfig.js";
 import { c, canvas, keys, placedItems } from "../index.js";
 import { Sprite } from "./Sprites.js";
 
@@ -29,6 +28,12 @@ class Player extends Sprite {
     this.score = 0;
     this.dir = "right";
     this.skill = null;
+    this.jetPack = {
+      canFly: true,
+      timerId: null,
+      flying: false,
+      fuel: 100,
+    };
     this.sprites = {
       idleRight: {
         imgSrc: "Assets/PlayerSprites/IdleRight.png",
@@ -79,6 +84,7 @@ class Player extends Sprite {
 
   update() {
     this.draw();
+    this.drawFuel();
     this.animateFrames();
 
     //velocity implementation
@@ -122,6 +128,22 @@ class Player extends Sprite {
         this.switchSprites("idleRight");
       }
     }
+
+    //JetPack
+    if (this.jetPack.fuel <= 0) {
+      this.jetPack.canFly = false;
+    } else {
+      this.jetPack.canFly = true;
+    }
+    if (keys.w.pressed && this.jetPack.canFly) {
+      this.onGround = false;
+      this.jetPack.fuel -= 1;
+      this.velocity.y -= 1.1 * settings.gravity;
+    }
+    if (!keys.w.pressed && this.jetPack.fuel < 100) {
+      this.jetPack.fuel += 1;
+    }
+    console.log(this.jetPack.fuel);
     if (keys.space.pressed && (this.onGround || this.onItem)) {
       this.velocity.y = -15;
       this.onGround = false;
@@ -161,6 +183,16 @@ class Player extends Sprite {
     if (this.health <= 0) {
       state.gameOver = true;
     }
+  }
+
+  drawFuel() {
+    c.fillStyle = "red";
+    c.fillRect(
+      this.position.x - 10,
+      this.position.y - 50,
+      (this.jetPack.fuel / 100) * (this.width + 20),
+      10
+    );
   }
 
   switchSprites(sprite) {

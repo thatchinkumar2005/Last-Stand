@@ -10,6 +10,10 @@ export default function keyDown({ e, keys }) {
     case "a":
       keys.a.pressed = true;
       break;
+    case "w":
+      console.log("w on");
+      keys.w.pressed = true;
+      break;
     case "Control":
       keys.Control.pressed = true;
       break;

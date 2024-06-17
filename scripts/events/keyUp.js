@@ -6,6 +6,10 @@ export default function keyUp({ e, keys }) {
     case "a":
       keys.a.pressed = false;
       break;
+    case "w":
+      console.log("w off");
+      keys.w.pressed = false;
+      break;
     case "Control":
       keys.Control.pressed = false;
       break;

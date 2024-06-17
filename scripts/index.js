@@ -34,6 +34,9 @@ export const keys = {
   space: {
     pressed: false,
   },
+  w: {
+    pressed: false,
+  },
 };
 
 export const mouse = {
