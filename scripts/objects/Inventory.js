@@ -48,8 +48,10 @@ export default class Inventory {
       //   };
       // });
       for (let item in items) {
+        console.log(`${item} : ${items[item].count}`);
+        console.log(items);
         if (items[item].count <= 0) {
-          break;
+          continue;
         }
         const itemDiv = document.createElement("div");
         itemDiv.innerHTML = items[item].name;
