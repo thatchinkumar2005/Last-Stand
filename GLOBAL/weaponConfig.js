@@ -1,18 +1,23 @@
 export const weaponConfig = {
   AR: {
-    icon: "Assets/weapons/AR.png",
     damage: 20,
-    bulletRadius: 10,
+    bulletRadius: 8,
     bulletVelocity: 40,
-    fireInterval: 500,
+    fireInterval: 200,
     name: "AR",
   },
   SMG: {
-    icon: "Assets/weapons/SMG.png",
     damage: 10,
     bulletRadius: 5,
     bulletVelocity: 40,
     fireInterval: 100,
     name: "SMG",
+  },
+  RPG: {
+    damage: 100,
+    bulletRadius: 15,
+    bulletVelocity: 40,
+    fireInterval: 1000,
+    name: "RPG",
   },
 };

@@ -101,9 +101,11 @@ export class Weapon extends Sprite {
       this.lastFired = currentTime; // Update the last fired time
       //recoil
       if (this.player.dir === "right") {
-        this.player.velocity.x = -10;
+        this.player.velocity.x =
+          (-this.config.bulletVelocity * this.config.bulletRadius) / 20;
       } else {
-        this.player.velocity.x = 10;
+        this.player.velocity.x =
+          (this.config.bulletVelocity * this.config.bulletRadius) / 20;
       }
     }
   }
