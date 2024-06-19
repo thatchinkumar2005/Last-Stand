@@ -136,7 +136,11 @@ export class NormalZombie extends Sprite {
       ) {
         if (i.name === "trap") {
           this.health = 0;
-          placedItems.splice(ind, 1);
+          i.switchSprites("attack");
+          console.log(i.image);
+          setTimeout(() => {
+            placedItems.splice(ind, 1);
+          }, 500);
           return;
         }
         if (this.position.x < i.position.x) {

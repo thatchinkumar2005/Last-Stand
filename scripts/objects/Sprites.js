@@ -11,6 +11,7 @@ export class Sprite {
       y: 1,
     },
     offSet = { x: 0, y: 0 },
+    framesHold = 5,
   }) {
     this.position = position;
     this.image = new Image();
@@ -22,7 +23,7 @@ export class Sprite {
     this.currentFrame = 0;
 
     this.framesElapsed = 0;
-    this.framesHold = 5;
+    this.framesHold = framesHold;
     this.offSet = offSet;
     this.scaleXY = scaleXY;
   }
