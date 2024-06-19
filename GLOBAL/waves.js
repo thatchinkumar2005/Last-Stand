@@ -1,4 +1,5 @@
 export const waves = {
-  NormalZombies: 1,
-  ClimberZombies: 1,
+  NormalZombies: 0,
+  ClimberZombies: 0,
+  Creeper: 1,
 };
