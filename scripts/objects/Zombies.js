@@ -418,8 +418,12 @@ export class ClimberZombie extends Sprite {
         this.position.y < i.position.y + i.height
       ) {
         if (i.name === "trap") {
-          placedItems.splice(ind, 1);
           this.health = 0;
+          i.switchSprites("attack");
+          console.log(i.image);
+          setTimeout(() => {
+            placedItems.splice(ind, 1);
+          }, 500);
           return;
         }
         if (this.position.y + this.height > i.position.y) {
