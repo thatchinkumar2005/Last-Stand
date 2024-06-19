@@ -1,14 +1,33 @@
 import { settings } from "../../GLOBAL/settings.js";
 import { c, canvas, placedItems, zombies } from "../index.js";
 import { Projectile } from "./Projectiles.js";
+import { Sprite } from "./Sprites.js";
 
-export default class SentryCannon {
+export default class SentryCannon extends Sprite {
   constructor({
     position,
     velocity = { x: 0, y: 0 },
     height = 150,
     width = 70,
+    initSprite = {
+      imgSrc: "Assets/SentryCannonRight.png",
+      framesMax: 1,
+    },
   }) {
+    super({
+      position,
+      imgSrc: initSprite.imgSrc,
+      framesMax: initSprite.framesMax,
+      scale: 0.025,
+      scaleXY: {
+        x: 0.6,
+        y: 1.2,
+      },
+      offSet: {
+        x: 20,
+        y: 46,
+      },
+    });
     this.position = position;
     this.velocity = velocity;
     this.height = height;
@@ -18,6 +37,9 @@ export default class SentryCannon {
     this.lastFired = 0;
     this.projectiles = [];
     this.dir = position.x + width / 2 > canvas.width / 2 ? "right" : "left";
+    if (this.dir === "right") {
+      this.image.src = "Assets/SentryCannonLeft.png";
+    }
   }
 
   drawHB() {
@@ -26,7 +48,7 @@ export default class SentryCannon {
   }
 
   update() {
-    this.drawHB();
+    this.draw();
 
     this.position.x += this.velocity.x;
     this.position.y += this.velocity.y;
