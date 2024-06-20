@@ -449,6 +449,7 @@ export class ClimberZombie extends Sprite {
         this.position.y < i.position.y + i.height
       ) {
         if (i.name === "trap") {
+          playAudio({ path: "Assets/trap.mp3" });
           this.health = 0;
           i.switchSprites("attack");
           console.log(i.image);
@@ -739,6 +740,7 @@ export class Creeper extends Sprite {
         this.position.y < i.position.y + i.height
       ) {
         if (i.name === "trap") {
+          playAudio({ path: "Assets/trap.mp3" });
           this.health = 0;
           i.switchSprites("attack");
           console.log(i.image);

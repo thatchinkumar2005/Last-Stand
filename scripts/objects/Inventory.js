@@ -75,7 +75,11 @@ export default class Inventory {
         const item = document.createElement("div");
         item.classList.add(weapon, "inventoryItem");
         item.innerHTML = `<img src="Assets/weapons/${weapon}Right.png"/>`;
+        item.addEventListener("mouseenter", () => {
+          playAudio({ path: "Assets/hover.mp3" });
+        });
         item.onclick = () => {
+          playAudio({ path: "Assets/click.mp3" });
           console.log(weapon.name);
           const weaponObj = new Weapon({
             position: {
@@ -101,9 +105,12 @@ export default class Inventory {
         const item = document.createElement("div");
         item.classList.add("inventoryItem", "skill", skill);
         item.innerHTML = `<img src="Assets/SkillIcons/2/${skill}.png"/>`;
+        item.addEventListener("mouseenter", () => {
+          playAudio({ path: "Assets/hover.mp3" });
+        });
         this.domElement.appendChild(item);
-
         item.onclick = () => {
+          playAudio({ path: "Assets/click.mp3" });
           this.player.skill = skill;
           skills.splice(skills.indexOf(skill), 1);
           item.remove();
