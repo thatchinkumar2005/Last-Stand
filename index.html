@@ -3,28 +3,21 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Last Stand</title>
-    <link rel="stylesheet" href="styles/index.css" />
-    <link rel="shortcut icon" href="/Assets/logo.png" type="image/x-icon" />
+    <title>Document</title>
+    <link rel="stylesheet" href="../styles/homePage.css" />
   </head>
   <body>
-    <canvas></canvas>
-    <div id="inventory"></div>
-    <div id="scoreBoard">
-      <div id="score">0</div>
-      <div id="healthBarContainer">
-        <div id="healthBar"></div>
-      </div>
-      <div id="pauseButton"></div>
-    </div>
-    <div id="gameOver">
-      <h1>GameOver</h1>
-      <h2 class="score">Score :</h2>
-      <h2 class="highscore">High Score :</h2>
-      <div class="restartButton" onclick="window.location.reload()">
-        Restart
+    <div class="container">
+      <h1 class="title">LAST STAND</h1>
+      <div class="card">
+        <div
+          onclick="document.location.replace('http://localhost:5500/game.html')"
+          class="btn menuText"
+        >
+          <img src="Assets/logo.png" height="50%" />
+          Start
+        </div>
       </div>
     </div>
-    <script src="scripts/index.js" type="module" />
   </body>
 </html>

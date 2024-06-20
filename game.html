@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Last Stand</title>
+    <link rel="stylesheet" href="styles/index.css" />
+    <link rel="shortcut icon" href="/Assets/logo.png" type="image/x-icon" />
+  </head>
+  <body>
+    <canvas></canvas>
+    <div id="inventory"></div>
+    <div id="scoreBoard">
+      <div id="score">0</div>
+      <div id="healthBarContainer">
+        <div id="healthBar"></div>
+      </div>
+      <div id="pauseButton"></div>
+    </div>
+    <div id="gameOver">
+      <h1>GameOver</h1>
+      <h2 class="score">Score :</h2>
+      <h2 class="highscore">High Score :</h2>
+      <div class="restartButton" onclick="window.location.reload()">
+        Restart
+      </div>
+    </div>
+    <script src="scripts/index.js" type="module" />
+  </body>
+</html>

@@ -72,10 +72,10 @@ const bgSprite = new Sprite({
   width: canvas.width,
   height: canvas.height,
   imgSrc: "../../Assets/bg.png",
-  scale: 0.525,
+  scale: 1,
   scaleXY: {
-    y: 1.12,
-    x: 1.14,
+    y: 0.79,
+    x: 1.248,
   },
 });
 
