@@ -1,4 +1,5 @@
 import { settings } from "../../GLOBAL/settings.js";
+import playAudio from "../../utills/playAudio.js";
 import { c, canvas, placedItems, zombies } from "../index.js";
 import { Projectile } from "./Projectiles.js";
 import { Sprite } from "./Sprites.js";
@@ -95,6 +96,7 @@ export default class SentryCannon extends Sprite {
   fire() {
     const currentTime = Date.now();
     if (currentTime - this.lastFired >= 3000) {
+      playAudio({ path: "Assets/cannon.mp3" });
       const proj = new Projectile({
         position: {
           x:

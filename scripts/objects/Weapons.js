@@ -1,3 +1,4 @@
+import playAudio from "../../utills/playAudio.js";
 import { c, canvas, keys, mouse } from "../index.js";
 import { Projectile } from "./Projectiles.js";
 import { Sprite } from "./Sprites.js";
@@ -85,6 +86,7 @@ export class Weapon extends Sprite {
         ? 50
         : this.config.fireInterval)
     ) {
+      playAudio({ path: "Assets/gun.mp3", volume: 0.5 });
       const proj = new Projectile({
         position: {
           x: this.position.x + this.width * Math.cos(this.angle),

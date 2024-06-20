@@ -2,6 +2,7 @@ import { items } from "../../GLOBAL/defensiveItems.js";
 import { skills } from "../../GLOBAL/skillConfig.js";
 import { state } from "../../GLOBAL/state.js";
 import { weaponConfig } from "../../GLOBAL/weaponConfig.js";
+import playAudio from "../../utills/playAudio.js";
 import { Weapon } from "./Weapons.js";
 
 export default class Inventory {
@@ -56,9 +57,15 @@ export default class Inventory {
         const itemDiv = document.createElement("div");
         itemDiv.innerHTML = items[item].name;
         itemDiv.classList.add(items[item].name, "inventoryItem");
+
+        itemDiv.addEventListener("mouseenter", () => {
+          playAudio({ path: "Assets/hover.mp3" });
+        });
+
         this.domElement.appendChild(itemDiv);
 
         itemDiv.onclick = () => {
+          playAudio({ path: "Assets/click.mp3" });
           this.selectedItem = items[item].name;
           this.hide();
         };

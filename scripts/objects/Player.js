@@ -1,5 +1,6 @@
 import { settings } from "../../GLOBAL/settings.js";
 import { state } from "../../GLOBAL/state.js";
+import playAudio from "../../utills/playAudio.js";
 import { c, canvas, keys, placedItems } from "../index.js";
 import { Sprite } from "./Sprites.js";
 
@@ -30,7 +31,6 @@ class Player extends Sprite {
     this.skill = null;
     this.jetPack = {
       canFly: true,
-      timerId: null,
       flying: false,
       fuel: 100,
     };
@@ -136,6 +136,7 @@ class Player extends Sprite {
       this.jetPack.canFly = true;
     }
     if (keys.w.pressed && !keys.space.pressed && this.jetPack.canFly) {
+      playAudio({ path: "Assets/jetpack.mp3" });
       this.onGround = false;
       this.jetPack.fuel -= 1;
       this.velocity.y -= 1.1 * settings.gravity;

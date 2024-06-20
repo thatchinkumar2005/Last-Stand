@@ -4,9 +4,11 @@ import { Block } from "../objects/Blocks.js";
 import { items } from "../../GLOBAL/defensiveItems.js";
 import { Trap } from "../objects/Trap.js";
 import SentryCannon from "../objects/SentryCannon.js";
+import playAudio from "../../utills/playAudio.js";
 
 export default function click({ weapon }) {
   if (state.phase === "prepare") {
+    playAudio({ path: "Assets/place.mp3" });
     switch (inventory.selectedItem) {
       case "block":
         const block = new Block({
@@ -38,6 +40,8 @@ export default function click({ weapon }) {
     }
   }
   if (state.phase === "play") {
-    if (state.fireMode === "single") weapon.fire();
+    if (state.fireMode === "single") {
+      weapon.fire();
+    }
   }
 }

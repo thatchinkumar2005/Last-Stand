@@ -1,4 +1,5 @@
 import { settings } from "../../GLOBAL/settings.js";
+import playAudio from "../../utills/playAudio.js";
 import randRange from "../../utills/randRange.js";
 import { c, canvas, placedItems, scoreBoard, zombies } from "../index.js";
 import { Sprite } from "./Sprites.js";
@@ -34,6 +35,7 @@ export class NormalZombie extends Sprite {
     this.attacking = false;
     this.currentSprite = "walkLeft";
     this.dir = "right";
+    this.audioPlay = false;
     this.sprites = {
       idleLeft: {
         imgSrc: "Assets/ZombieSprites/IdleLeft.png",
@@ -88,6 +90,19 @@ export class NormalZombie extends Sprite {
   }
 
   update({ player }) {
+    //audio
+    if (this.position.x > 0 && this.position.x < canvas.width)
+      if (!this.audioPlay) {
+        this.audioPlay = true;
+        playAudio({
+          path: "Assets/zombie.mp3",
+          onended: () => {
+            this.audioPlay = false;
+          },
+          currentTime: randRange(0, 1),
+          volume: 0.2,
+        });
+      }
     this.draw();
     this.animateFrames();
     this.position.x += this.velocity.x;
@@ -138,6 +153,7 @@ export class NormalZombie extends Sprite {
           this.health = 0;
           i.switchSprites("attack");
           console.log(i.image);
+          playAudio({ path: "Assets/trap.mp3" });
           setTimeout(() => {
             placedItems.splice(ind, 1);
           }, 500);
@@ -197,6 +213,7 @@ export class NormalZombie extends Sprite {
     }
 
     if (this.health <= 0) {
+      playAudio({ path: "Assets/zombieDeath.mp3" });
       zombies.splice(zombies.indexOf(this), 1);
       player.score++;
       scoreBoard.refresh({ player });
@@ -217,6 +234,7 @@ export class NormalZombie extends Sprite {
 
   attack({ player }) {
     setTimeout(() => {
+      playAudio({ path: "Assets/zombieBite.mp3" });
       console.log("attacked");
       if (player.skill !== "infinity") player.health -= this.damage;
       this.attacking = false;
@@ -316,6 +334,7 @@ export class ClimberZombie extends Sprite {
     this.damage = 5;
     this.attacking = false;
     this.currentSprite = "walkLeft";
+    this.audioPlay = false;
     this.dir = "right";
     this.sprites = {
       idleLeft: {
@@ -371,6 +390,18 @@ export class ClimberZombie extends Sprite {
   }
 
   update({ player }) {
+    if (this.position.x > 0 && this.position.x < canvas.width)
+      if (!this.audioPlay) {
+        this.audioPlay = true;
+        playAudio({
+          path: "Assets/climberZombie.mp3",
+          onended: () => {
+            this.audioPlay = false;
+          },
+          currentTime: randRange(0, 1),
+          volume: 0.2,
+        });
+      }
     this.draw();
     this.animateFrames();
     this.position.x += this.velocity.x;
@@ -475,6 +506,7 @@ export class ClimberZombie extends Sprite {
       this.offSet.y = 200;
     }
     if (this.health <= 0) {
+      playAudio({ path: "Assets/zombieDeath.mp3" });
       zombies.splice(zombies.indexOf(this), 1);
       player.score++;
       scoreBoard.refresh({ player });
@@ -488,6 +520,7 @@ export class ClimberZombie extends Sprite {
       this.position.y < player.position.y + player.height &&
       !this.attacking
     ) {
+      playAudio({ path: "Assets/zombieBite.mp3" });
       this.attack({ player });
       this.attacking = true;
     }
@@ -646,6 +679,17 @@ export class Creeper extends Sprite {
   }
 
   update({ player }) {
+    if (this.position.x > 0 && this.position.x < canvas.width)
+      if (!this.audioPlay) {
+        this.audioPlay = true;
+        playAudio({
+          path: "Assets/creeper.mp3",
+          onended: () => {
+            this.audioPlay = false;
+          },
+          currentTime: randRange(0, 1),
+        });
+      }
     this.draw();
     this.animateFrames();
     this.position.x += this.velocity.x;
@@ -757,6 +801,7 @@ export class Creeper extends Sprite {
     }
 
     if (this.health <= 0) {
+      playAudio({ path: "Assets/zombieDeath.mp3" });
       zombies.splice(zombies.indexOf(this), 1);
       player.score++;
       scoreBoard.refresh({ player });
@@ -786,6 +831,8 @@ export class Creeper extends Sprite {
           if (player.skill !== "infinity") player.health -= 30;
         }
         this.explode = true;
+        this.audioPlay = true;
+        playAudio({ path: "Assets/explosion.mp3" });
         setTimeout(() => {
           zombies.splice(zombies.indexOf(this), 1);
           delete this;
