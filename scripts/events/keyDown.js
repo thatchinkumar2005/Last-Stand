@@ -1,5 +1,5 @@
 import { state } from "../../GLOBAL/state.js";
-import { inventory } from "../index.js";
+import { inventory, sideBar } from "../index.js";
 
 export default function keyDown({ e, keys }) {
   console.log(e.key);
@@ -21,6 +21,7 @@ export default function keyDown({ e, keys }) {
       keys.space.pressed = true;
       if (state.phase === "prepare") {
         state.phase = "play";
+        sideBar.refresh();
         inventory.items = [];
       }
       break;

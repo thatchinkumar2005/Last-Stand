@@ -3,6 +3,7 @@ import { skills } from "../../GLOBAL/skillConfig.js";
 import { state } from "../../GLOBAL/state.js";
 import { weaponConfig } from "../../GLOBAL/weaponConfig.js";
 import playAudio from "../../utills/playAudio.js";
+import { sideBar } from "../index.js";
 import { Weapon } from "./Weapons.js";
 
 export default class Inventory {
@@ -79,6 +80,8 @@ export default class Inventory {
           playAudio({ path: "Assets/hover.mp3" });
         });
         item.onclick = () => {
+          sideBar.domElement.weapon.innerHTML = "";
+          sideBar.domElement.weapon.innerHTML = `<img src="Assets/weapons/${weapon}Right.png"/>`;
           playAudio({ path: "Assets/click.mp3" });
           console.log(weapon.name);
           const weaponObj = new Weapon({
@@ -110,6 +113,8 @@ export default class Inventory {
         });
         this.domElement.appendChild(item);
         item.onclick = () => {
+          sideBar.domElement.skill.innerHTML = "";
+          sideBar.domElement.skill.innerHTML = `<img src="Assets/SkillIcons/2/${skill}.png"/>`;
           playAudio({ path: "Assets/click.mp3" });
           this.player.skill = skill;
           skills.splice(skills.indexOf(skill), 1);
@@ -119,6 +124,8 @@ export default class Inventory {
           const id = setTimeout(() => {
             console.log(this.player.skill);
             this.player.skill = null;
+            sideBar.domElement.skill.innerHTML = "";
+
             console.log(this.player.skill);
           }, 10000);
           this.skill.name = skill;

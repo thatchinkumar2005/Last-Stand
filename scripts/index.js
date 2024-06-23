@@ -10,11 +10,10 @@ import Inventory from "./objects/Inventory.js";
 import { Player } from "./objects/Player.js";
 import { ScoreBoard } from "./objects/ScoreBoard.js";
 import SentryCannon from "./objects/SentryCannon.js";
+import SideBar from "./objects/SideBar.js";
 import { Sprite } from "./objects/Sprites.js";
 import { Trap } from "./objects/Trap.js";
 import { ClimberZombie, Creeper, NormalZombie } from "./objects/Zombies.js";
-
-let wave = 0;
 
 export const canvas = document.querySelector("canvas");
 canvas.height = 760;
@@ -59,6 +58,9 @@ export const inventory = new Inventory({
 });
 inventory.refresh();
 
+export const sideBar = new SideBar();
+sideBar.refresh();
+
 player.weapon = inventory.weapon;
 inventory.weapon.player = player;
 
@@ -85,11 +87,12 @@ function animate() {
 
   //waves
   if (zombies.length === 0) {
-    wave++;
+    state.wave++;
+    sideBar.refresh();
     for (let key in waves) {
       if (key === "NormalZombies") {
-        for (let i = 0; i < waves[key] * wave; i++) {
-          if (i < (waves[key] * wave) / 2) {
+        for (let i = 0; i < waves[key] * state.wave; i++) {
+          if (i < (waves[key] * state.wave) / 2) {
             const zombie = new NormalZombie({
               position: { x: -100 * (i + 1), y: canvas.height - 145 },
             });
@@ -105,8 +108,8 @@ function animate() {
           }
         }
       } else if (key === "ClimberZombies") {
-        for (let i = 0; i < waves[key] * wave; i++) {
-          if (i < (waves[key] * wave) / 2) {
+        for (let i = 0; i < waves[key] * state.wave; i++) {
+          if (i < (waves[key] * state.wave) / 2) {
             const zombie = new ClimberZombie({
               position: { x: -100 * (i + 1), y: canvas.height - 145 },
             });
@@ -122,8 +125,8 @@ function animate() {
           }
         }
       } else if (key === "Creeper") {
-        for (let i = 0; i < waves[key] * wave; i++) {
-          if (i < (waves[key] * wave) / 2) {
+        for (let i = 0; i < waves[key] * state.wave; i++) {
+          if (i < (waves[key] * state.wave) / 2) {
             const zombie = new Creeper({
               position: { x: -100 * (i + 1), y: canvas.height - 145 },
             });

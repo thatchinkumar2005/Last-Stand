@@ -3,4 +3,5 @@ export const state = {
   gameOver: false,
   isPaused: false,
   fireMode: "single",
+  wave: 0,
 };
